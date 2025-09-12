@@ -16,9 +16,6 @@ const Hero = () => {
           
           <h1 className="mb-6 text-5xl md:text-7xl font-bold tracking-tight">
             Scale Your
-            <span className="gradient-primary bg-clip-text text-transparent text-glow ml-4">
-              Marketplace
-            </span>
             <br />
             Success
           </h1>
