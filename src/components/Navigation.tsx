@@ -53,6 +53,12 @@ const Navigation = () => {
               </button>
             ))}
             <Link
+              to="/free-tools"
+              className="text-muted-foreground hover:text-primary transition-premium font-medium"
+            >
+              Free Tools
+            </Link>
+            <Link
               to="/login"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-premium font-medium"
             >
@@ -98,6 +104,13 @@ const Navigation = () => {
                   {item.label}
                 </button>
               ))}
+              <Link
+                to="/free-tools"
+                className="block w-full text-left text-muted-foreground hover:text-primary transition-premium font-medium py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Free Tools
+              </Link>
               <div className="pt-4 border-t border-primary/20">
                 <Button size="sm" className="w-full gradient-primary shadow-glow transition-premium">
                   Get Started
