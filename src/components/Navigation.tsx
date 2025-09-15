@@ -36,9 +36,9 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">MA</span>
+              <span className="text-primary-foreground font-bold text-lg">SQ</span>
             </div>
-            <span className="font-bold text-xl">MarketingAgency</span>
+            <span className="font-bold text-xl">SYNQ</span>
           </div>
 
           {/* Desktop Navigation */}
