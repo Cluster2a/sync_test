@@ -154,7 +154,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <div className="font-medium">Email</div>
-                      <div className="text-sm text-muted-foreground">hello@yourmarketingagency.com</div>
+                      <div className="text-sm text-muted-foreground">hello@wearesynq.com</div>
                     </div>
                   </div>
                   
@@ -164,7 +164,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <div className="font-medium">Phone</div>
-                      <div className="text-sm text-muted-foreground">+1 (555) 123-4567</div>
+                      <div className="text-sm text-muted-foreground">+49 151 5810 2274</div>
                     </div>
                   </div>
                   
@@ -174,7 +174,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <div className="font-medium">Location</div>
-                      <div className="text-sm text-muted-foreground">New York, NY & Berlin, DE</div>
+                      <div className="text-sm text-muted-foreground">Barcelona</div>
                     </div>
                   </div>
                   
