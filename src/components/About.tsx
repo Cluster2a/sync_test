@@ -5,22 +5,22 @@ import { Linkedin, Mail } from "lucide-react";
 const About = () => {
   const team = [
     {
-      name: "Alex Chen",
+      name: "Alexander Swade",
       role: "CEO & Performance Marketing Lead",
       expertise: ["Amazon PPC", "Data Analytics", "Growth Strategy"],
-      bio: "10+ years driving marketplace success with $20M+ in managed ad spend."
+      bio: "10+ years driving marketplace success with $ 1 billion+ in managed ad spend."
     },
     {
-      name: "Sarah Rodriguez",
-      role: "Head of Data Analytics",
-      expertise: ["Business Intelligence", "Market Research", "Automation"],
-      bio: "Former Amazon analyst with deep marketplace insights and predictive modeling expertise."
+      name: "Marc Diss",
+      role: "Head of Client Success",
+      expertise: ["Performance Marketing", "Market Research", "Client Relations"],
+      bio: "10+ years of performance marketing expertise with deep marketplace insights."
     },
     {
-      name: "Marcus Weber",
+      name: "Patricia Sanz",
       role: "Tech Solutions Director",
-      expertise: ["API Development", "Custom Scripts", "Integration"],
-      bio: "Full-stack developer specializing in marketplace automation and performance tools."
+      expertise: ["Automation", "Custom Scripts", "Large-Scale Solutions"],
+      bio: "Financial trader turned marketing professional that now specializes in automations, custom scripts and large-scale tech solutions."
     }
   ];
 
