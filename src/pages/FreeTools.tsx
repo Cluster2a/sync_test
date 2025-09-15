@@ -89,7 +89,7 @@ const FreeTools = () => {
         {/* Hero Section */}
         <section className="py-20 gradient-hero">
           <div className="container mx-auto px-6 text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
               Free Optimization Tools For You
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">

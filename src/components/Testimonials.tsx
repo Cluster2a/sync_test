@@ -53,7 +53,7 @@ const Testimonials = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Client <span className="gradient-primary bg-clip-text text-transparent">Success Stories</span>
+            Client Success Stories
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Real results from real marketplace sellers who trusted us to scale their businesses.

@@ -44,7 +44,7 @@ const Contact = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Let's Scale Your <span className="gradient-primary bg-clip-text text-transparent">Success</span>
+            Let's Scale Your Success
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Ready to transform your marketplace performance? Get in touch for a free consultation and custom growth strategy.

@@ -51,7 +51,7 @@ const WebApp = () => {
               </div>
             </div>
             <h1 className="text-4xl font-bold mb-2">
-              Amazon PPC <span className="gradient-primary bg-clip-text text-transparent">ROI Calculator</span>
+              Amazon PPC ROI Calculator
             </h1>
             <p className="text-muted-foreground">Calculate your advertising return on investment and optimize your campaigns</p>
           </div>

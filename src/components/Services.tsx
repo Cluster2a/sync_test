@@ -28,7 +28,7 @@ const Services = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Our <span className="gradient-primary bg-clip-text text-transparent">Expertise</span>
+            Our Expertise
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Three core pillars that drive marketplace success for our clients across US and European markets.
@@ -63,15 +63,15 @@ const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center">
-            <div className="text-4xl font-bold gradient-primary bg-clip-text text-transparent mb-2">500+</div>
+            <div className="text-4xl font-bold mb-2">500+</div>
             <div className="text-muted-foreground">Successful Campaigns</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold gradient-primary bg-clip-text text-transparent mb-2">$50M+</div>
+            <div className="text-4xl font-bold mb-2">$50M+</div>
             <div className="text-muted-foreground">Revenue Generated</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold gradient-primary bg-clip-text text-transparent mb-2">98%</div>
+            <div className="text-4xl font-bold mb-2">98%</div>
             <div className="text-muted-foreground">Client Satisfaction</div>
           </div>
         </div>
