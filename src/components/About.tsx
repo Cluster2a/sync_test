@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Linkedin, Mail } from "lucide-react";
+import { Linkedin, Mail, Target, BarChart3, TrendingUp, Zap } from "lucide-react";
 
 const About = () => {
   const team = [
@@ -72,28 +72,28 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="w-12 h-12 rounded-full gradient-primary mx-auto mb-3 flex items-center justify-center">
-                <span className="text-xl">🎯</span>
+                <Target className="h-6 w-6 text-primary-foreground" />
               </div>
               <h4 className="font-semibold mb-2">Results-Focused</h4>
               <p className="text-sm text-muted-foreground">Every strategy is built around ROI and measurable growth</p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 rounded-full gradient-primary mx-auto mb-3 flex items-center justify-center">
-                <span className="text-xl">📊</span>
+                <BarChart3 className="h-6 w-6 text-primary-foreground" />
               </div>
               <h4 className="font-semibold mb-2">Data-Driven</h4>
               <p className="text-sm text-muted-foreground">Decisions backed by comprehensive analytics and insights</p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 rounded-full gradient-primary mx-auto mb-3 flex items-center justify-center">
-                <span className="text-xl">🚀</span>
+                <TrendingUp className="h-6 w-6 text-primary-foreground" />
               </div>
               <h4 className="font-semibold mb-2">Scalable Solutions</h4>
               <p className="text-sm text-muted-foreground">Built to grow with your business across multiple markets</p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 rounded-full gradient-primary mx-auto mb-3 flex items-center justify-center">
-                <span className="text-xl">⚡</span>
+                <Zap className="h-6 w-6 text-primary-foreground" />
               </div>
               <h4 className="font-semibold mb-2">Tech-Forward</h4>
               <p className="text-sm text-muted-foreground">Cutting-edge tools and automation for competitive advantage</p>
