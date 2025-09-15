@@ -6,7 +6,7 @@ const Services = () => {
     {
       icon: Target,
       title: "Performance Marketing",
-      description: "ROI-focused campaigns across Amazon, eBay, Etsy and other major marketplaces. Precision targeting that converts.",
+      description: "ROI-focused campaigns across Amazon and other major marketplaces. Precision targeting that converts.",
       features: ["PPC Optimization", "Conversion Tracking", "A/B Testing", "Campaign Automation"]
     },
     {
@@ -63,16 +63,16 @@ const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center">
-            <div className="text-4xl font-bold mb-2">500+</div>
-            <div className="text-muted-foreground">Successful Campaigns</div>
+            <div className="text-4xl font-bold mb-2">1M+</div>
+            <div className="text-muted-foreground">Campaigns Managed</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold mb-2">$50M+</div>
-            <div className="text-muted-foreground">Revenue Generated</div>
+            <div className="text-4xl font-bold mb-2">9-Digit</div>
+            <div className="text-muted-foreground">Annual Marketing Budgets</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold mb-2">98%</div>
-            <div className="text-muted-foreground">Client Satisfaction</div>
+            <div className="text-4xl font-bold mb-2">100%</div>
+            <div className="text-muted-foreground">Domain Expertise</div>
           </div>
         </div>
       </div>

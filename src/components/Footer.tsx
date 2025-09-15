@@ -13,9 +13,9 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">MA</span>
+                <span className="text-primary-foreground font-bold text-lg">S</span>
               </div>
-              <span className="font-bold text-xl">MarketingAgency</span>
+              <span className="font-bold text-xl">SYNQ</span>
             </div>
             <p className="text-muted-foreground text-sm">
               Transforming marketplace success through performance marketing, 
@@ -79,7 +79,7 @@ const Footer = () => {
         <Separator className="mb-8" />
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <p>&copy; {currentYear} MarketingAgency Pro. All rights reserved.</p>
+          <p>&copy; {currentYear} SYNQ. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-primary transition-premium">Privacy Policy</a>
             <a href="#" className="hover:text-primary transition-premium">Terms of Service</a>
