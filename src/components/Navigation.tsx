@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Navigation = () => {
@@ -16,6 +16,12 @@ const Navigation = () => {
   }, []);
 
   const scrollToSection = (sectionId: string) => {
+    // If we're not on the main page, navigate there first
+    if (window.location.pathname !== '/') {
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+    
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -58,26 +64,17 @@ const Navigation = () => {
             >
               Free Tools
             </Link>
-            <Link
-              to="/login"
-              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-premium font-medium"
+            <Button 
+              size="sm" 
+              className="gradient-primary shadow-glow transition-premium hover:scale-105"
+              onClick={() => scrollToSection('contact')}
             >
-              <User className="h-4 w-4" />
-              Client Portal
-            </Link>
-            <Button size="sm" className="gradient-primary shadow-glow transition-premium hover:scale-105">
               Get Started
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-4">
-            <Link
-              to="/login"
-              className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-premium"
-            >
-              <User className="h-5 w-5 text-primary" />
-            </Link>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-premium"
@@ -112,7 +109,11 @@ const Navigation = () => {
                 Free Tools
               </Link>
               <div className="pt-4 border-t border-primary/20">
-                <Button size="sm" className="w-full gradient-primary shadow-glow transition-premium">
+                <Button 
+                  size="sm" 
+                  className="w-full gradient-primary shadow-glow transition-premium"
+                  onClick={() => scrollToSection('contact')}
+                >
                   Get Started
                 </Button>
               </div>
