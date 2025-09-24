@@ -35,16 +35,16 @@ const Testimonials = () => {
 
   const caseStudies = [
     {
-      title: "Fashion Brand Scale-Up",
-      challenge: "Small fashion brand struggling with Amazon PPC efficiency",
-      solution: "Implemented advanced bidding strategies + competitor analysis",
-      results: ["ACOS decreased from 45% to 18%", "Revenue increased 280%", "Launched in 5 new markets"]
+      title: "EU Reseller",
+      challenge: "huge & highly dynamic portfolio with 6k+ SKUs across 5 marketplaces",
+      solution: "built tech solutions to semi-automate marketing from campaign creation, to bidding and search term negation",
+      results: ["1000s of newly launched campaigns", "+30% YoY profit growth", "reduced internal teams operational load by 20+ hours / week"]
     },
     {
-      title: "Electronics Expansion",
-      challenge: "European expansion for US electronics seller",
-      solution: "Market research + localized campaigns + automation tools",
-      results: ["€1.2M in new market revenue", "Successful launch in 6 countries", "50% faster inventory turnover"]
+      title: "US Fabric Commodities",
+      challenge: "Return to proftibality in an asian dominated commodities niche",
+      solution: "listing re-design + granular campaign rebuild + smart promotion cycles + automation tools",
+      results: ["+131% Profit Growth in 3 months", "-88% Discount Dependency", "cashflow optimized" , "-35% Redcution in Marketing Waste"]
     }
   ];
 

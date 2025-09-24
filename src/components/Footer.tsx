@@ -49,8 +49,7 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-semibold text-lg">Tools & Resources</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link to="/tools/roi-calculator" className="hover:text-primary transition-premium">ROI Calculator</Link></li>
-              <li><Link to="/login" className="hover:text-primary transition-premium">Client Portal</Link></li>
+              <li><Link to="/free-tools" className="hover:text-primary transition-premium">Free Tools</Link></li>
               <li><a href="#testimonials" className="hover:text-primary transition-premium">Case Studies</a></li>
               <li><a href="#about" className="hover:text-primary transition-premium">Success Stories</a></li>
             </ul>
@@ -70,7 +69,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-primary" />
-                <span>Barcelona</span>
+                <span>Munich</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Link to="/legal" className="hover:text-primary transition-premium">

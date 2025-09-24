@@ -139,7 +139,7 @@ const FreeTools = () => {
               Ready to Optimize Your Business?
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join thousands of marketplace sellers who are already using our tools to grow their business.
+              Join the group of other sellers and marketeers who are already using our tools to grow their business.
             </p>
             <Button size="lg" className="gradient-primary shadow-glow hover:scale-105 transition-premium" asChild>
               <Link to="/#contact">Start Optimizing Now</Link>
