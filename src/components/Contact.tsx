@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -25,32 +26,37 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/functions/v1/send-contact-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const { error } = await supabase
+        .from('Contacts')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            company: formData.company,
+            service_interest: formData.service,
+            current_marketplace: formData.marketplaces,
+            message: formData.message
+          }
+        ]);
 
-      if (response.ok) {
-        toast({
-          title: "Message Sent!",
-          description: "We'll get back to you within 24 hours to discuss your marketplace growth strategy.",
-        });
-        setFormData({
-          name: "",
-          email: "",
-          company: "",
-          service: "",
-          marketplaces: "",
-          message: ""
-        });
-      } else {
-        throw new Error('Failed to send message');
+      if (error) {
+        throw error;
       }
+
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you within 24 hours to discuss your marketplace growth strategy.",
+      });
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        service: "",
+        marketplaces: "",
+        message: ""
+      });
     } catch (error) {
+      console.error('Error saving contact form:', error);
       toast({
         title: "Error",
         description: "Failed to send message. Please try again or contact us directly.",
