@@ -71,11 +71,7 @@ const Footer = () => {
                 <MapPin className="h-4 w-4 text-primary" />
                 <span>Munich</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Link to="/legal" className="hover:text-primary transition-premium">
-                  Privacy & Legal
-                </Link>
-              </div>
+          
             </div>
           </div>
         </div>
