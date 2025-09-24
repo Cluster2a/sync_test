@@ -58,9 +58,9 @@ const About = () => {
                   <button className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-premium">
                     <Linkedin className="h-4 w-4 text-primary" />
                   </button>
-                  <button className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-premium">
+                  <a href="mailto:hello@wearesync.com" className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-premium">
                     <Mail className="h-4 w-4 text-primary" />
-                  </button>
+                  </a>
                 </div>
               </CardContent>
             </Card>

@@ -26,13 +26,17 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button size="lg" className="gradient-primary shadow-glow transition-premium hover:scale-105 group">
-              Start Your Growth
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </Button>
-            <Button variant="outline" size="lg" className="border-primary/30 hover:bg-primary/10 transition-premium">
-              View Case Studies
-            </Button>
+            <Link to="/#contact">
+              <Button size="lg" className="gradient-primary shadow-glow transition-premium hover:scale-105 group">
+                Start Your Growth
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+            <Link to="/#contact">
+              <Button variant="outline" size="lg" className="border-primary/30 hover:bg-primary/10 transition-premium">
+                View Case Studies
+              </Button>
+            </Link>
           </div>
           
           <div className="text-center mb-8">
