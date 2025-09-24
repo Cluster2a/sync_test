@@ -1,21 +1,12 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Calculator, BarChart3, Target, TrendingUp, Search, DollarSign, ArrowRight } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { Link } from "react-router-dom";
 
 const FreeTools = () => {
-  const [selectedTool, setSelectedTool] = useState<string | null>(null);
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    company: ""
-  });
 
   const tools = [
     {
@@ -68,18 +59,6 @@ const FreeTools = () => {
     }
   ];
 
-  const handleToolAccess = (toolId: string) => {
-    setSelectedTool(toolId);
-  };
-
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the contact information to your backend
-    console.log("Contact form submitted:", contactForm);
-    // Redirect to the specific tool or show access granted message
-    alert("Thank you! Access granted to our optimization tools.");
-    setSelectedTool(null);
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -131,64 +110,15 @@ const FreeTools = () => {
                                 ))}
                               </div>
                             </div>
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <Button 
-                                  className="w-full gradient-primary hover:scale-105 transition-premium group"
-                                  onClick={() => handleToolAccess(tool.id)}
-                                >
-                                  Access Tool
-                                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                </Button>
-                              </DialogTrigger>
-                              <DialogContent className="gradient-card">
-                                <DialogHeader>
-                                  <DialogTitle className="flex items-center gap-3">
-                                    <IconComponent className="h-6 w-6 text-primary" />
-                                    Access {tool.title}
-                                  </DialogTitle>
-                                  <DialogDescription>
-                                    Please provide your contact information to access our free optimization tools.
-                                  </DialogDescription>
-                                </DialogHeader>
-                                <form onSubmit={handleContactSubmit} className="space-y-4">
-                                  <div className="space-y-2">
-                                    <Label htmlFor="name">Full Name</Label>
-                                    <Input
-                                      id="name"
-                                      value={contactForm.name}
-                                      onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
-                                      required
-                                      className="border-primary/20 focus:border-primary"
-                                    />
-                                  </div>
-                                  <div className="space-y-2">
-                                    <Label htmlFor="email">Email Address</Label>
-                                    <Input
-                                      id="email"
-                                      type="email"
-                                      value={contactForm.email}
-                                      onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
-                                      required
-                                      className="border-primary/20 focus:border-primary"
-                                    />
-                                  </div>
-                                  <div className="space-y-2">
-                                    <Label htmlFor="company">Company Name</Label>
-                                    <Input
-                                      id="company"
-                                      value={contactForm.company}
-                                      onChange={(e) => setContactForm({...contactForm, company: e.target.value})}
-                                      required
-                                      className="border-primary/20 focus:border-primary"
-                                    />
-                                  </div>
-                                  <Button type="submit" className="w-full gradient-primary">
-                                    Get Free Access
-                                  </Button>
-                                </form>
-                              </DialogContent>
-                            </Dialog>
+                            <Button 
+                              className="w-full gradient-primary hover:scale-105 transition-premium group"
+                              asChild
+                            >
+                              <Link to={`/tools/${tool.id}`}>
+                                Access Tool
+                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                              </Link>
+                            </Button>
                           </CardContent>
                         </Card>
                       </CarouselItem>
@@ -211,8 +141,8 @@ const FreeTools = () => {
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Join thousands of marketplace sellers who are already using our tools to grow their business.
             </p>
-            <Button size="lg" className="gradient-primary shadow-glow hover:scale-105 transition-premium">
-              Start Optimizing Now
+            <Button size="lg" className="gradient-primary shadow-glow hover:scale-105 transition-premium" asChild>
+              <Link to="/#contact">Start Optimizing Now</Link>
             </Button>
           </div>
         </section>
