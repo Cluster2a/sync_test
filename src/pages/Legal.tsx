@@ -100,8 +100,8 @@ const Legal = () => {
                   <h3 className="text-xl font-semibold mb-3">7. Contact Us</h3>
                   <p className="text-muted-foreground">
                     For any privacy-related questions or to exercise your rights, contact us at: 
-                    <a href="mailto:privacy@wearesynq.com" className="text-primary hover:underline ml-1">
-                      privacy@wearesynq.com
+                    <a href="mailto:hello@wearesynq.com" className="text-primary hover:underline ml-1">
+                      hello@wearesynq.com
                     </a>
                   </p>
                 </div>
@@ -176,8 +176,8 @@ const Legal = () => {
                   <h3 className="text-xl font-semibold mb-3">8. Contact Information</h3>
                   <p className="text-muted-foreground">
                     For questions about these Terms of Service, contact us at:
-                    <a href="mailto:legal@wearesynq.com" className="text-primary hover:underline ml-1">
-                      legal@wearesynq.com
+                    <a href="mailto:hello@wearesynq.com" className="text-primary hover:underline ml-1">
+                      hello@wearesynq.com
                     </a>
                   </p>
                 </div>
@@ -256,8 +256,8 @@ const Legal = () => {
                   <h3 className="text-xl font-semibold mb-3">7. Contact Us</h3>
                   <p className="text-muted-foreground">
                     If you have questions about our use of cookies, contact us at:
-                    <a href="mailto:cookies@wearesynq.com" className="text-primary hover:underline ml-1">
-                      cookies@wearesynq.com
+                    <a href="mailto:hello@wearesynq.com" className="text-primary hover:underline ml-1">
+                      hello@wearesynq.com
                     </a>
                   </p>
                 </div>
