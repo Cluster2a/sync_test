@@ -42,13 +42,18 @@ const FreeTools = () => {
       features: ["Cost tracking", "Margin analysis", "Fee calculations", "Profit optimization"]
     },
     {
-      id: "growth-forecaster",
-      title: "Growth Forecaster",
-      description: "Predict your business growth trajectory",
-      icon: TrendingUp,
-      preview: "Input historical data to forecast future growth",
-      features: ["Revenue forecasting", "Trend analysis", "Seasonal patterns", "Growth strategies"]
-    },
+  id: "lifetime-value",
+  title: "Lifetime Value Calculator",
+  description: "Estimate customer lifetime revenue and profit for Amazon brands",
+  icon: Calculator, // or another icon you like
+  preview: "Upload yearly CSVs, enter gross margin & ad spend to calculate LTV metrics",
+  features: [
+    "CSV upload for multiple years",
+    "Dynamic gross margin & ad spend inputs",
+    "One-time vs repeat customer breakdown",
+    "Customer Lifetime Value (Revenue & Profit)"
+  ]
+},
     {
       id: "target-optimizer",
       title: "Target Optimizer",

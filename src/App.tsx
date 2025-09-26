@@ -9,6 +9,7 @@ import WebApp from "./pages/WebApp";
 import FreeTools from "./pages/FreeTools";
 import Legal from "./pages/Legal";
 import NotFound from "./pages/NotFound";
+import LifetimeValueApp from "./pages/ltv";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/free-tools" element={<FreeTools />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="/tools/roi-calculator" element={<WebApp />} />
+          <Route path="/tools/lifetime-value" element={<LifetimeValueApp />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
