@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Calculator, TrendingUp, Upload, DollarSign, Users, Trash2, Plus } from "lucide-react";
+import { ArrowLeft, Calculator, TrendingUp, Upload, DollarSign, Users, Trash2, ArrowUp, ArrowDown, Minus } from "lucide-react";
 
 interface YearDataRaw {
   Date: string;
@@ -31,6 +31,20 @@ interface YearInputs {
 
 interface YearComputed {
   year: string;
+  // Raw CSV data
+  totalCustomers: number;
+  totalSales: number;
+  totalOrders: number;
+  newToBrandCustomers: number;
+  newToBrandSales: number;
+  newToBrandOrders: number;
+  repeatCustomers: number;
+  repeatSales: number;
+  repeatOrders: number;
+  repeatPurchaseRate: number;
+  avgRepeatInterval: number;
+  potentialNewCustomers: number;
+  // Calculated metrics
   contributionProfit: number;
   contributionProfitPct: number;
   repeatCustomerRate: number;
@@ -58,7 +72,11 @@ function formatCurrency(n: number, currency: string): string {
   return new Intl.NumberFormat(undefined, { style: "currency", currency }).format(n);
 }
 
-function parseCSV(file: File): Promise<YearDataRaw> {
+function formatNumber(n: number): string {
+  return new Intl.NumberFormat(undefined).format(Math.round(n));
+}
+
+function parseCSV(file: File): Promise<YearDataRaw[]> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -71,27 +89,60 @@ function parseCSV(file: File): Promise<YearDataRaw> {
         }
         
         const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
-        const dataRow = lines[1].split(',').map(d => d.trim().replace(/"/g, ''));
+        const dataRows = lines.slice(1);
         
-        const data: any = {};
-        headers.forEach((header, index) => {
-          const value = dataRow[index];
-          if (header === 'Date') {
-            data[header] = value;
-          } else {
-            data[header] = parseFloat(value) || 0;
-          }
-        });
+        console.log('Headers found:', headers); // Debug log
         
-        // Validate required fields
-        const required = ['Total Customers', 'Total Sales', 'Total Orders', 'Repeat Customers', 'Repeat Sales', 'Repeat Orders'];
-        for (const field of required) {
-          if (!(field in data)) {
-            throw new Error(`Missing required field: ${field}`);
+        const results: YearDataRaw[] = [];
+        
+        for (const row of dataRows) {
+          const values = [];
+          let current = '';
+          let inQuotes = false;
+          
+          // Better CSV parsing that handles commas within quoted fields
+          for (let i = 0; i < row.length; i++) {
+            const char = row[i];
+            if (char === '"') {
+              inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+              values.push(current.trim());
+              current = '';
+            } else {
+              current += char;
+            }
           }
+          values.push(current.trim()); // Don't forget the last value
+          
+          console.log('Values parsed:', values); // Debug log
+          
+          const data: any = {};
+          
+          headers.forEach((header, index) => {
+            const value = values[index];
+            if (header === 'Date') {
+              data[header] = value;
+            } else {
+              // Remove any remaining quotes and parse as number
+              const cleanValue = value?.replace(/"/g, '') || '0';
+              data[header] = parseFloat(cleanValue) || 0;
+            }
+          });
+          
+          console.log('Parsed data object:', data); // Debug log
+          
+          // Validate required fields
+          const required = ['Total Customers', 'Total Sales', 'Total Orders', 'Repeat Customers', 'Repeat Sales', 'Repeat Orders'];
+          for (const field of required) {
+            if (!(field in data)) {
+              throw new Error(`Missing required field: ${field}. Found fields: ${Object.keys(data).join(', ')}`);
+            }
+          }
+          
+          results.push(data as YearDataRaw);
         }
         
-        resolve(data as YearDataRaw);
+        resolve(results);
       } catch (err) {
         reject(err);
       }
@@ -99,6 +150,12 @@ function parseCSV(file: File): Promise<YearDataRaw> {
     reader.onerror = () => reject(new Error("File read error"));
     reader.readAsText(file);
   });
+}
+
+function extractYearFromDate(dateStr: string): string {
+  // Extract year from dates like "December 31, 2023"
+  const match = dateStr.match(/\d{4}/);
+  return match ? match[0] : new Date().getFullYear().toString();
 }
 
 function computeMetrics(raw: YearDataRaw, input: YearInputs): YearComputed {
@@ -138,6 +195,20 @@ function computeMetrics(raw: YearDataRaw, input: YearInputs): YearComputed {
 
   return {
     year: input.year,
+    // Raw CSV data
+    totalCustomers,
+    totalSales,
+    totalOrders,
+    newToBrandCustomers: raw["New to Brand Customers"] || 0,
+    newToBrandSales: raw["New to Brand Customer Sales"] || 0,
+    newToBrandOrders: raw["New to Brand Customer Orders"] || 0,
+    repeatCustomers,
+    repeatSales,
+    repeatOrders,
+    repeatPurchaseRate: raw["Repeat Purchase Rate"] || 0,
+    avgRepeatInterval: raw["Average Repeat Purchase Interval"] || 0,
+    potentialNewCustomers: raw["Potential New Customers"] || 0,
+    // Calculated metrics
     contributionProfit,
     contributionProfitPct,
     repeatCustomerRate,
@@ -162,81 +233,98 @@ function computeMetrics(raw: YearDataRaw, input: YearInputs): YearComputed {
   };
 }
 
+function calculateYoY(current: number, previous: number): { percentage: number; icon: JSX.Element; color: string } {
+  if (previous === 0) return { percentage: 0, icon: <Minus className="h-3 w-3" />, color: "text-muted-foreground" };
+  
+  const percentage = ((current - previous) / previous) * 100;
+  
+  if (percentage > 0) {
+    return { 
+      percentage, 
+      icon: <ArrowUp className="h-3 w-3" />, 
+      color: "text-green-600" 
+    };
+  } else if (percentage < 0) {
+    return { 
+      percentage: Math.abs(percentage), 
+      icon: <ArrowDown className="h-3 w-3" />, 
+      color: "text-red-600" 
+    };
+  } else {
+    return { 
+      percentage: 0, 
+      icon: <Minus className="h-3 w-3" />, 
+      color: "text-muted-foreground" 
+    };
+  }
+}
+
 const LifetimeValueApp: React.FC = () => {
   const [currency, setCurrency] = useState<string>("USD");
-  const [years, setYears] = useState<YearInputs[]>([]);
-  const [raws, setRaws] = useState<Record<string, YearDataRaw>>({});
+  const [yearInputs, setYearInputs] = useState<YearInputs[]>([]);
+  const [rawData, setRawData] = useState<YearDataRaw[]>([]);
   const [computed, setComputed] = useState<YearComputed[]>([]);
-  const [uploadStatus, setUploadStatus] = useState<Record<string, string>>({});
+  const [uploadStatus, setUploadStatus] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
 
-  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>, year: string) {
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setUploadStatus(prev => ({ ...prev, [year]: "uploading" }));
+    setUploadStatus("uploading");
     setErrors([]);
 
     try {
       const data = await parseCSV(file);
-      setRaws(prev => ({ ...prev, [year]: data }));
-      setUploadStatus(prev => ({ ...prev, [year]: "success" }));
+      setRawData(data);
+      
+      // Create year inputs based on the years found in the CSV
+      const yearsFound = data.map(row => extractYearFromDate(row.Date));
+      const uniqueYears = [...new Set(yearsFound)].sort();
+      
+      const newYearInputs = uniqueYears.map(year => ({
+        year,
+        grossMargin: 0.3,
+        adSpend: 0,
+        repeatLifespan: 2
+      }));
+      
+      setYearInputs(newYearInputs);
+      setUploadStatus("success");
     } catch (err) {
-      const errorMsg = `Error uploading ${year} data: ${err instanceof Error ? err.message : 'Unknown error'}`;
-      setErrors(prev => [...prev, errorMsg]);
-      setUploadStatus(prev => ({ ...prev, [year]: "error" }));
+      const errorMsg = `Error uploading data: ${err instanceof Error ? err.message : 'Unknown error'}`;
+      setErrors([errorMsg]);
+      setUploadStatus("error");
     }
   }
 
   function handleInputChange(year: string, field: keyof Omit<YearInputs, "year">, value: string) {
     const numValue = parseFloat(value) || 0;
-    setYears(prev => prev.map(y => y.year === year ? { ...y, [field]: numValue } : y));
-  }
-
-  function addYear() {
-    const year = new Date().getFullYear().toString();
-    const yearExists = years.some(y => y.year === year);
-    const newYear = yearExists ? `${year}-${years.length + 1}` : year;
-    
-    setYears(prev => [...prev, { 
-      year: newYear, 
-      grossMargin: 0.3, 
-      adSpend: 0, 
-      repeatLifespan: 2 
-    }]);
-  }
-
-  function removeYear(year: string) {
-    setYears(prev => prev.filter(y => y.year !== year));
-    setRaws(prev => {
-      const { [year]: removed, ...rest } = prev;
-      return rest;
-    });
-    setUploadStatus(prev => {
-      const { [year]: removed, ...rest } = prev;
-      return rest;
-    });
+    setYearInputs(prev => prev.map(y => y.year === year ? { ...y, [field]: numValue } : y));
   }
 
   function calculate() {
     setErrors([]);
     const results: YearComputed[] = [];
-    const missingData: string[] = [];
     
-    for (const y of years) {
-      const raw = raws[y.year];
-      if (!raw) {
-        missingData.push(y.year);
-        continue;
-      }
-      results.push(computeMetrics(raw, y));
+    for (const yearInput of yearInputs) {
+      const rawDataForYear = rawData.find(data => extractYearFromDate(data.Date) === yearInput.year);
+      if (!rawDataForYear) continue;
+      
+      results.push(computeMetrics(rawDataForYear, yearInput));
     }
     
-    if (missingData.length > 0) {
-      setErrors([`Missing CSV data for years: ${missingData.join(', ')}`]);
-    }
-    
+    // Sort by year
+    results.sort((a, b) => a.year.localeCompare(b.year));
     setComputed(results);
+  }
+
+  function clearData() {
+    setRawData([]);
+    setYearInputs([]);
+    setComputed([]);
+    setUploadStatus("");
+    setErrors([]);
   }
 
   const getStatusColor = (status: string) => {
@@ -248,9 +336,24 @@ const LifetimeValueApp: React.FC = () => {
     }
   };
 
+  // Metrics for table display
+  const tableMetrics = [
+    { key: 'clvRev', label: 'LTV Revenue', format: 'currency', category: 'key' },
+    { key: 'clvProfit', label: 'LTV Profit', format: 'currency', category: 'key' },
+    { key: 'totalCustomers', label: 'Total Customers', format: 'number', category: 'raw' },
+    { key: 'totalSales', label: 'Total Sales', format: 'currency', category: 'raw' },
+    { key: 'totalOrders', label: 'Total Orders', format: 'number', category: 'raw' },
+    { key: 'repeatCustomers', label: 'Repeat Customers', format: 'number', category: 'raw' },
+    { key: 'repeatSales', label: 'Repeat Sales', format: 'currency', category: 'raw' },
+    { key: 'repeatOrders', label: 'Repeat Orders', format: 'number', category: 'raw' },
+    { key: 'repeatCustomerRate', label: 'Repeat Customer Rate', format: 'percentage', category: 'calculated' },
+    { key: 'contributionProfitPct', label: 'Contribution Profit %', format: 'percentage', category: 'calculated' },
+    { key: 'contributionProfit', label: 'Contribution Profit', format: 'currency', category: 'calculated' },
+  ];
+
   return (
     <div className="min-h-screen gradient-hero p-6">
-      <div className="container mx-auto max-w-6xl">
+      <div className="container mx-auto max-w-7xl">
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-premium mb-6 cursor-pointer">
             <ArrowLeft className="h-4 w-4" />
@@ -285,11 +388,11 @@ const LifetimeValueApp: React.FC = () => {
           </Card>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
           <Card className="gradient-card border-primary/20 shadow-premium">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Plus className="h-5 w-5 text-primary" />
+                <Upload className="h-5 w-5 text-primary" />
                 Setup
               </CardTitle>
             </CardHeader>
@@ -307,112 +410,135 @@ const LifetimeValueApp: React.FC = () => {
                 </select>
               </div>
               
-              <Button 
-                onClick={addYear} 
-                className="w-full gradient-primary shadow-glow transition-premium hover:scale-105"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Year
-              </Button>
+              <div className="space-y-2">
+                <Label>Upload CSV Data</Label>
+                <input 
+                  type="file" 
+                  accept=".csv" 
+                  onChange={handleFileUpload}
+                  className="block w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                />
+                {uploadStatus && (
+                <div className="space-y-2">
+                  <p className={`text-xs ${getStatusColor(uploadStatus)}`}>
+                    {uploadStatus === 'success' && `✓ ${rawData.length} year(s) of data uploaded`}
+                    {uploadStatus === 'error' && '✗ Upload failed'}
+                    {uploadStatus === 'uploading' && 'Uploading...'}
+                  </p>
+                  {uploadStatus === 'success' && rawData.length > 0 && (
+                    <div className="text-xs text-muted-foreground bg-background/30 p-2 rounded">
+                      <p className="font-semibold">Preview:</p>
+                      <p>Date: {rawData[0].Date}</p>
+                      <p>Total Customers: {rawData[0]["Total Customers"]}</p>
+                      <p>Total Sales: {formatCurrency(rawData[0]["Total Sales"], currency)}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+              </div>
 
-              {years.length > 0 && (
-                <Button 
-                  onClick={calculate} 
-                  size="lg"
-                  className="w-full bg-green-600 hover:bg-green-700 shadow-glow transition-premium hover:scale-105"
-                >
-                  <Calculator className="h-4 w-4 mr-2" />
-                  Calculate LTV
-                </Button>
+              {rawData.length > 0 && (
+                <div className="space-y-2">
+                  <Button 
+                    onClick={calculate} 
+                    size="lg"
+                    className="w-full gradient-primary shadow-glow transition-premium hover:scale-105"
+                  >
+                    <Calculator className="h-4 w-4 mr-2" />
+                    Calculate LTV
+                  </Button>
+                  
+                  <Button 
+                    onClick={clearData} 
+                    variant="outline"
+                    size="sm"
+                    className="w-full text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Clear Data
+                  </Button>
+                </div>
               )}
             </CardContent>
           </Card>
 
-          <div className="lg:col-span-2">
-            <div className="space-y-6">
-              {years.map((year, index) => (
-                <Card key={year.year} className="gradient-card border-primary/20 shadow-premium">
-                  <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Users className="h-5 w-5 text-primary" />
-                        Year {year.year}
-                      </div>
-                      <Button
-                        onClick={() => removeYear(year.year)}
-                        variant="outline"
-                        size="sm"
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <Label className="flex items-center gap-2">
-                        <Upload className="h-4 w-4" />
-                        Upload CSV Data
-                      </Label>
-                      <input 
-                        type="file" 
-                        accept=".csv" 
-                        onChange={e => handleFileUpload(e, year.year)}
-                        className="block w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
-                      />
-                      {uploadStatus[year.year] && (
-                        <p className={`text-xs ${getStatusColor(uploadStatus[year.year])}`}>
-                          {uploadStatus[year.year] === 'success' && '✓ File uploaded successfully'}
-                          {uploadStatus[year.year] === 'error' && '✗ Upload failed'}
-                          {uploadStatus[year.year] === 'uploading' && 'Uploading...'}
-                        </p>
-                      )}
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="space-y-2">
-                        <Label>Gross Margin %</Label>
-                        <Input
-                          type="number"
-                          min={0}
-                          max={1}
-                          step={0.01}
-                          value={year.grossMargin}
-                          onChange={e => handleInputChange(year.year, 'grossMargin', e.target.value)}
-                          className="bg-background/50 border-primary/20 focus:border-primary"
-                          placeholder="0.30"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label>Advertising Spend</Label>
-                        <Input
-                          type="number"
-                          min={0}
-                          value={year.adSpend}
-                          onChange={e => handleInputChange(year.year, 'adSpend', e.target.value)}
-                          className="bg-background/50 border-primary/20 focus:border-primary"
-                          placeholder="10000"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label>Repeat Lifespan (years)</Label>
-                        <Input
-                          type="number"
-                          min={0}
-                          step={0.1}
-                          value={year.repeatLifespan}
-                          onChange={e => handleInputChange(year.year, 'repeatLifespan', e.target.value)}
-                          className="bg-background/50 border-primary/20 focus:border-primary"
-                          placeholder="2.0"
-                        />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+          <div className="lg:col-span-3">
+            {yearInputs.length > 0 && (
+              <Card className="gradient-card border-primary/20 shadow-premium">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="h-5 w-5 text-primary" />
+                    Year-by-Year Inputs
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-primary/20">
+                          <th className="text-left p-4 font-semibold min-w-40">Input Parameter</th>
+                          {yearInputs.map(yearInput => (
+                            <th key={yearInput.year} className="text-center p-4 font-semibold min-w-32">
+                              {yearInput.year}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-primary/10">
+                          <td className="p-4 font-medium">Gross Margin %</td>
+                          {yearInputs.map(yearInput => (
+                            <td key={`${yearInput.year}-margin`} className="p-4">
+                              <Input
+                                type="number"
+                                min={0}
+                                max={1}
+                                step={0.01}
+                                value={yearInput.grossMargin}
+                                onChange={e => handleInputChange(yearInput.year, 'grossMargin', e.target.value)}
+                                className="bg-background/50 border-primary/20 focus:border-primary text-center"
+                                placeholder="0.30"
+                              />
+                            </td>
+                          ))}
+                        </tr>
+                        <tr className="border-b border-primary/10">
+                          <td className="p-4 font-medium">Ad Spend</td>
+                          {yearInputs.map(yearInput => (
+                            <td key={`${yearInput.year}-spend`} className="p-4">
+                              <Input
+                                type="number"
+                                min={0}
+                                value={yearInput.adSpend}
+                                onChange={e => handleInputChange(yearInput.year, 'adSpend', e.target.value)}
+                                className="bg-background/50 border-primary/20 focus:border-primary text-center"
+                                placeholder="10000"
+                              />
+                            </td>
+                          ))}
+                        </tr>
+                        <tr>
+                          <td className="p-4 font-medium">Repeat Lifespan (years)</td>
+                          {yearInputs.map(yearInput => (
+                            <td key={`${yearInput.year}-lifespan`} className="p-4">
+                              <Input
+                                type="number"
+                                min={0}
+                                step={0.1}
+                                value={yearInput.repeatLifespan}
+                                onChange={e => handleInputChange(yearInput.year, 'repeatLifespan', e.target.value)}
+                                className="bg-background/50 border-primary/20 focus:border-primary text-center"
+                                placeholder="2.0"
+                              />
+                            </td>
+                          ))}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
 
@@ -420,54 +546,74 @@ const LifetimeValueApp: React.FC = () => {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center">LTV Analysis Results</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {computed.map(c => (
-                <Card key={c.year} className="gradient-card border-primary/20 shadow-premium">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <TrendingUp className="h-5 w-5 text-primary" />
-                      {c.year} Results
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="text-center p-3 rounded-lg bg-background/30">
-                        <div className="text-lg font-bold text-primary">{formatCurrency(c.clvRev, currency)}</div>
-                        <div className="text-xs text-muted-foreground">LTV Revenue</div>
-                      </div>
-                      <div className="text-center p-3 rounded-lg bg-background/30">
-                        <div className="text-lg font-bold text-primary">{formatCurrency(c.clvProfit, currency)}</div>
-                        <div className="text-xs text-muted-foreground">LTV Profit</div>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Repeat Rate:</span>
-                        <span className="font-medium">{(c.repeatCustomerRate * 100).toFixed(1)}%</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Contribution Profit:</span>
-                        <span className="font-medium">{formatCurrency(c.contributionProfit, currency)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Profit Margin:</span>
-                        <span className="font-medium">{(c.contributionProfitPct * 100).toFixed(1)}%</span>
-                      </div>
-                    </div>
-
-                    <div className="text-center">
-                      <Badge 
-                        variant={c.clvProfit > 100 ? "default" : c.clvProfit > 50 ? "secondary" : "destructive"}
-                        className="text-sm py-1 px-3"
-                      >
-                        {c.clvProfit > 100 ? "Strong LTV" : c.clvProfit > 50 ? "Good LTV" : "Needs Improvement"}
-                      </Badge>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <Card className="gradient-card border-primary/20 shadow-premium">
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-primary/20">
+                        <th className="text-left p-4 font-semibold">Metric</th>
+                        {computed.map(c => (
+                          <th key={c.year} className="text-center p-4 font-semibold min-w-32">
+                            {c.year}
+                          </th>
+                        ))}
+                        {computed.length >= 2 && (
+                          <th className="text-center p-4 font-semibold min-w-20">YoY %</th>
+                        )}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tableMetrics.map((metric, index) => {
+                        const isKeyMetric = metric.category === 'key';
+                        const latest = computed[computed.length - 1];
+                        const previous = computed.length >= 2 ? computed[computed.length - 2] : null;
+                        
+                        let yoyData = null;
+                        if (previous) {
+                          const currentVal = latest[metric.key as keyof YearComputed] as number;
+                          const previousVal = previous[metric.key as keyof YearComputed] as number;
+                          yoyData = calculateYoY(currentVal, previousVal);
+                        }
+                        
+                        return (
+                          <tr 
+                            key={metric.key} 
+                            className={`border-b border-primary/10 ${isKeyMetric ? 'bg-primary/5' : ''}`}
+                          >
+                            <td className={`p-4 ${isKeyMetric ? 'font-semibold' : ''}`}>
+                              {metric.label}
+                            </td>
+                            {computed.map(c => (
+                              <td key={`${c.year}-${metric.key}`} className="text-center p-4">
+                                {metric.format === 'currency' 
+                                  ? formatCurrency(c[metric.key as keyof YearComputed] as number, currency)
+                                  : metric.format === 'percentage'
+                                  ? `${((c[metric.key as keyof YearComputed] as number) * 100).toFixed(1)}%`
+                                  : formatNumber(c[metric.key as keyof YearComputed] as number)
+                                }
+                              </td>
+                            ))}
+                            {computed.length >= 2 && (
+                              <td className="text-center p-4">
+                                {yoyData && (
+                                  <div className={`flex items-center justify-center gap-1 ${yoyData.color}`}>
+                                    {yoyData.icon}
+                                    <span className="text-sm font-medium">
+                                      {yoyData.percentage.toFixed(1)}%
+                                    </span>
+                                  </div>
+                                )}
+                              </td>
+                            )}
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         )}
 
@@ -484,6 +630,7 @@ const LifetimeValueApp: React.FC = () => {
                   <div>
                     <h4 className="font-semibold mb-2">Required CSV Columns:</h4>
                     <ul className="space-y-1 text-xs">
+                      <li>• Date (e.g., "December 31, 2023")</li>
                       <li>• Total Customers</li>
                       <li>• Total Sales</li>
                       <li>• Total Orders</li>
@@ -499,7 +646,7 @@ const LifetimeValueApp: React.FC = () => {
                       <li>• Repeat Customer Rate</li>
                       <li>• Average Purchase Values</li>
                       <li>• Contribution Profit Margins</li>
-                      <li>• Blended LTV across customer segments</li>
+                      <li>• Year-over-Year Growth Analysis</li>
                     </ul>
                   </div>
                 </div>
