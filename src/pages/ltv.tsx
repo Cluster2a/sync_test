@@ -59,7 +59,10 @@ function parseCSV(file: File): Promise<YearDataRaw> {
     reader.onload = () => {
       try {
         const text = reader.result as string;
-        const rows = XLSX.utils.sheet_to_json<YearDataRaw>(XLSX.read(text, { type: "string" }).Sheets.Sheet1);
+        const wb = XLSX.read(text, { type: "string" });
+        const firstSheetName = wb.SheetNames[0];
+        const sheet = wb.Sheets[firstSheetName];
+        const rows = XLSX.utils.sheet_to_json<YearDataRaw>(sheet, { defval: null });
         if (!rows.length) throw new Error("CSV is empty");
         resolve(rows[0]);
       } catch (err) {
