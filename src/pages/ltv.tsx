@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as CSV from "csv";
+import * as XLSX from "xlsx";
 
 interface YearDataRaw {
   Date: string;
