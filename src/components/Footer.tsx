@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Phone, MapPin, Linkedin, Twitter, Facebook } from "lucide-react";
+import { navigateToSection } from "@/lib/navigation";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -38,10 +39,10 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-semibold text-lg">Services</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#services" className="hover:text-primary transition-premium">Performance Marketing</a></li>
-              <li><a href="#services" className="hover:text-primary transition-premium">Data Analytics</a></li>
-              <li><a href="#services" className="hover:text-primary transition-premium">Tech Solutions</a></li>
-              <li><a href="#services" className="hover:text-primary transition-premium">Marketplace Optimization</a></li>
+              <li><button onClick={() => navigateToSection('services')} className="hover:text-primary transition-premium">Performance Marketing</button></li>
+              <li><button onClick={() => navigateToSection('services')} className="hover:text-primary transition-premium">Data Analytics</button></li>
+              <li><button onClick={() => navigateToSection('services')} className="hover:text-primary transition-premium">Tech Solutions</button></li>
+              <li><button onClick={() => navigateToSection('services')} className="hover:text-primary transition-premium">Marketplace Optimization</button></li>
             </ul>
           </div>
 
@@ -50,8 +51,8 @@ const Footer = () => {
             <h3 className="font-semibold text-lg">Tools & Resources</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link to="/free-tools" className="hover:text-primary transition-premium">Free Tools</Link></li>
-              <li><a href="#testimonials" className="hover:text-primary transition-premium">Case Studies</a></li>
-              <li><a href="#about" className="hover:text-primary transition-premium">Success Stories</a></li>
+              <li><button onClick={() => navigateToSection('testimonials')} className="hover:text-primary transition-premium">Case Studies</button></li>
+              <li><button onClick={() => navigateToSection('about')} className="hover:text-primary transition-premium">Success Stories</button></li>
             </ul>
           </div>
 

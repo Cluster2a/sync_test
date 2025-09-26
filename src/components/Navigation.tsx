@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import { navigateToSection } from "@/lib/navigation";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,17 +17,8 @@ const Navigation = () => {
   }, []);
 
   const scrollToSection = (sectionId: string) => {
-    // If we're not on the main page, navigate there first
-    if (window.location.pathname !== '/') {
-      window.location.href = `/#${sectionId}`;
-      return;
-    }
-    
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsMobileMenuOpen(false);
-    }
+    navigateToSection(sectionId);
+    setIsMobileMenuOpen(false);
   };
 
   const navItems = [
