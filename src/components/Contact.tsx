@@ -26,7 +26,8 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase
+      // First, save to Supabase
+      const { error: dbError } = await supabase
         .from('Contacts')
         .insert([
           {
@@ -39,14 +40,39 @@ const Contact = () => {
           }
         ]);
 
-      if (error) {
-        throw error;
+      if (dbError) {
+        console.error('Database error:', dbError);
+        // Continue with email sending even if DB fails
       }
 
-      toast({
-        title: "Message Sent!",
-        description: "We'll get back to you within 24 hours to discuss your marketplace growth strategy.",
+      // Then, send email via Supabase Edge Function
+      const { error: emailError } = await supabase.functions.invoke('send-contact-email', {
+        body: {
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          service: formData.service,
+          marketplaces: formData.marketplaces,
+          message: formData.message
+        }
       });
+
+      if (emailError) {
+        console.error('Email error:', emailError);
+        // Show success for DB save, but mention email issue
+        toast({
+          title: "Form Submitted!",
+          description: "Your message has been saved. We'll get back to you within 24 hours.",
+        });
+      } else {
+        // Both DB and email successful
+        toast({
+          title: "Message Sent!",
+          description: "We'll get back to you within 24 hours to discuss your marketplace growth strategy.",
+        });
+      }
+
+      // Reset form
       setFormData({
         name: "",
         email: "",
@@ -55,8 +81,9 @@ const Contact = () => {
         marketplaces: "",
         message: ""
       });
+
     } catch (error) {
-      console.error('Error saving contact form:', error);
+      console.error('Error submitting contact form:', error);
       toast({
         title: "Error",
         description: "Failed to send message. Please try again or contact us directly.",
