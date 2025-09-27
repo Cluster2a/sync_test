@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Target, TrendingUp, Package, Zap, DollarSign, BarChart3, CheckCircle, AlertTriangle, ArrowDown, ArrowUp } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface FormData {
   grossMargin: number | null;
@@ -145,10 +146,13 @@ const AcosTargetCalculator: React.FC = () => {
     <div className="min-h-screen gradient-hero p-6">
       <div className="container mx-auto max-w-4xl">
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-premium mb-6 cursor-pointer">
+          <Link 
+            to="/" 
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-premium mb-6 cursor-pointer"
+          >
             <ArrowLeft className="h-4 w-4" />
             Back to Home
-          </div>
+          </Link>
           
           <div className="text-center">
             <div className="inline-flex items-center gap-2 mb-4">
