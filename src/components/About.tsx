@@ -8,19 +8,22 @@ const About = () => {
       name: "Alexander Swade",
       role: "CEO & Performance Marketing Lead",
       expertise: ["Amazon PPC", "Data Analytics", "Growth Strategy"],
-      bio: "10+ years driving marketplace success with $ 1 billion+ in managed ad spend."
+      bio: "10+ years driving marketplace success with $ 1 billion+ in managed ad spend.",
+      linkedin: "https://www.linkedin.com/in/alexanderswade/"
     },
     {
       name: "Marc Diss",
       role: "Head of Client Success",
       expertise: ["Performance Marketing", "Market Research", "Client Relations"],
-      bio: "10+ years of performance marketing expertise with deep marketplace insights."
+      bio: "10+ years of performance marketing expertise with deep marketplace insights.",
+      linkedin: "https://www.linkedin.com/in/marcdiss/"
     },
     {
       name: "Patricia Sanz",
       role: "Tech Solutions Director",
       expertise: ["Automation", "Custom Scripts", "Large-Scale Solutions"],
-      bio: "Financial trader turned marketing professional that now specializes in automations, custom scripts and large-scale tech solutions."
+      bio: "Financial trader turned marketing professional that now specializes in automations, custom scripts and large-scale tech solutions.",
+      linkedin: "https://www.linkedin.com/in/pmsanz/"
     }
   ];
 
@@ -55,9 +58,9 @@ const About = () => {
                   ))}
                 </div>
                 <div className="flex gap-2 justify-center">
-                  <button className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-premium">
+                  <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-premium">
                     <Linkedin className="h-4 w-4 text-primary" />
-                  </button>
+                  </a>
                   <a href="mailto:hello@wearesync.com" className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-premium">
                     <Mail className="h-4 w-4 text-primary" />
                   </a>
