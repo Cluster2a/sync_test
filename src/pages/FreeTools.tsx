@@ -18,49 +18,17 @@ const FreeTools = () => {
       features: ["Revenue tracking", "Cost analysis", "Profit margins", "Growth projections"]
     },
     {
-      id: "performance-analyzer",
-      title: "Performance Analyzer",
-      description: "Analyze your marketplace performance metrics",
-      icon: BarChart3,
-      preview: "Upload your sales data and get comprehensive performance insights",
-      features: ["Sales trends", "Conversion rates", "Market share", "Competitor analysis"]
-    },
-    {
-      id: "keyword-optimizer",
-      title: "Keyword Optimizer",
-      description: "Optimize your product listings for better visibility",
-      icon: Search,
-      preview: "Enter your product details and get optimized keywords",
-      features: ["Keyword research", "Search volume", "Competition analysis", "Ranking potential"]
-    },
-    {
-      id: "profit-tracker",
-      title: "Profit Tracker",
-      description: "Track and optimize your profit margins",
+      id: "lifetime-value",
+      title: "Lifetime Value Calculator",
+      description: "Estimate customer lifetime revenue and profit for Amazon brands",
       icon: DollarSign,
-      preview: "Monitor your costs and profits across all channels",
-      features: ["Cost tracking", "Margin analysis", "Fee calculations", "Profit optimization"]
-    },
-    {
-  id: "lifetime-value",
-  title: "Lifetime Value Calculator",
-  description: "Estimate customer lifetime revenue and profit for Amazon brands",
-  icon: Calculator, // or another icon you like
-  preview: "Upload yearly CSVs, enter gross margin & ad spend to calculate LTV metrics",
-  features: [
-    "CSV upload for multiple years",
-    "Dynamic gross margin & ad spend inputs",
-    "One-time vs repeat customer breakdown",
-    "Customer Lifetime Value (Revenue & Profit)"
-  ]
-},
-    {
-      id: "target-optimizer",
-      title: "Target Optimizer",
-      description: "Optimize your advertising targeting",
-      icon: Target,
-      preview: "Analyze and improve your ad targeting strategies",
-      features: ["Audience analysis", "Targeting optimization", "Budget allocation", "Performance tracking"]
+      preview: "Upload yearly CSVs, enter gross margin & ad spend to calculate LTV metrics",
+      features: [
+        "CSV upload for multiple years",
+        "Dynamic gross margin & ad spend inputs",
+        "One-time vs repeat customer breakdown",
+        "Customer Lifetime Value (Revenue & Profit)"
+      ]
     }
   ];
 

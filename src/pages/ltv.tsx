@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calculator, TrendingUp, Upload, DollarSign, Users, Trash2, ArrowUp, ArrowDown, Minus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface YearDataRaw {
   Date: string;
@@ -355,10 +356,13 @@ const LifetimeValueApp: React.FC = () => {
     <div className="min-h-screen gradient-hero p-6">
       <div className="container mx-auto max-w-7xl">
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-premium mb-6 cursor-pointer">
+          <Link 
+            to="/" 
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-premium mb-6"
+          >
             <ArrowLeft className="h-4 w-4" />
             Back to Home
-          </div>
+          </Link>
           
           <div className="text-center">
             <div className="inline-flex items-center gap-2 mb-4">
