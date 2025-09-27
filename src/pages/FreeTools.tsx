@@ -6,6 +6,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 
+
 const FreeTools = () => {
 
   const tools = [
@@ -29,7 +30,15 @@ const FreeTools = () => {
         "One-time vs repeat customer breakdown",
         "Customer Lifetime Value (Revenue & Profit)"
       ]
-    }
+    },
+    {
+      id: "acos-calculator",
+      title: "ACOS Calculator",
+      description: "Calculate your ACOS Targets for your ASINS",
+      icon: Target,
+      preview: "Input your ASIN Details to calculate your ACOS Target",
+      features: ["Multi-factor analysis", "Inventory impact assessment", "Strategy-based targeting", "Performance benchmarking"]
+    },
   ];
 
 

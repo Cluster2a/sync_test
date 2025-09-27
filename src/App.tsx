@@ -10,6 +10,7 @@ import FreeTools from "./pages/FreeTools";
 import Legal from "./pages/Legal";
 import NotFound from "./pages/NotFound";
 import LifetimeValueApp from "./pages/ltv";
+import AcosTargetCalculator from "./pages/acosCalculator";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/legal" element={<Legal />} />
           <Route path="/tools/roi-calculator" element={<WebApp />} />
           <Route path="/tools/lifetime-value" element={<LifetimeValueApp />} />
+          <Route path="/tools/acos-calculator" element={<AcosTargetCalculator />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
