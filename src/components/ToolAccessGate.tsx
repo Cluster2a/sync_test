@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Mail, User, Lock, Unlock, Gift, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { setToolAccess, getToolAccess } from "@/utils/toolAccess";
+import { navigateToSection } from "@/lib/navigation";
 
 interface ToolAccessGateProps {
   children: React.ReactNode;
@@ -251,7 +252,11 @@ export const ToolAccessGate: React.FC<ToolAccessGateProps> = ({ children, toolNa
                 These free tools are just the beginning. Get custom analytics, automation, 
                 and growth strategies tailored to your business.
               </p>
-              <Button variant="outline" className="transition-premium hover:scale-105">
+              <Button 
+                variant="outline" 
+                className="transition-premium hover:scale-105"
+                onClick={() => navigateToSection('services')}
+              >
                 Learn About Our Services
               </Button>
             </CardContent>
