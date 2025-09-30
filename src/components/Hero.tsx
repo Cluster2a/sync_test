@@ -12,13 +12,13 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm">
             <Target className="h-4 w-4 text-primary" />
-            <span className="text-primary">Performance-Driven Marketing</span>
+            <span className="text-primary">Align. Analyze. Act. All in SYNQ.</span>
           </div>
           
           <h1 className="mb-6 text-5xl md:text-7xl font-bold tracking-tight">
-            SYNQ the dots. Scale your brand. 
+            SYNQ the dots. 
             <br />
-            Align. Analyze. Act. All in SYNQ.
+            Scale your brand.
           </h1>
           
           <p className="mb-8 text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
