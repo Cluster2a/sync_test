@@ -15,7 +15,7 @@ const About = () => {
     {
       name: "Marc Diss",
       role: "Head of Client Success",
-      image: "/images/team/marc_LI.png",
+      image: "/images/team/marc_LI.jpeg",
       expertise: ["Performance Marketing", "Market Research", "Client Relations"],
       bio: "10+ years of performance marketing expertise with deep marketplace insights.",
       linkedin: "https://www.linkedin.com/in/marcdiss/"
@@ -23,7 +23,7 @@ const About = () => {
     {
       name: "Patricia Sanz",
       role: "Tech Solutions Director",
-      image: "/images/team/pat_LI.png",
+      image: "/images/team/pat_LI.jpeg",
       expertise: ["Automation", "Custom Scripts", "Large-Scale Solutions"],
       bio: "Financial trader turned marketing professional that now specializes in automations, custom scripts and large-scale tech solutions.",
       linkedin: "https://www.linkedin.com/in/pmsanz/"
