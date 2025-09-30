@@ -115,7 +115,24 @@ const FreeTools = () => {
             </div>
           </div>
         </section>
-
+ {/* Call to Action */}
+        <section className="py-20 gradient-hero">
+          <div className="container mx-auto px-6 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Ready to Optimize Your Business?
+            </h2>
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Join the group of other sellers and marketeers who are already using our tools to grow their business.
+            </p>
+            <Button 
+              size="lg" 
+              className="gradient-primary shadow-glow hover:scale-105 transition-premium"
+              onClick={() => navigateToSection('contact')}
+            >
+              Start Optimizing Now
+            </Button>
+          </div>
+        </section>
         {/* SEO FAQ Section for LTV */}
         <section className="py-20">
           <div className="container mx-auto px-6">
@@ -260,25 +277,6 @@ const FreeTools = () => {
                 </Accordion>
               </CardContent>
             </Card>
-          </div>
-        </section>
-
-        {/* Call to Action */}
-        <section className="py-20 gradient-hero">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to Optimize Your Business?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join the group of other sellers and marketeers who are already using our tools to grow their business.
-            </p>
-            <Button 
-              size="lg" 
-              className="gradient-primary shadow-glow hover:scale-105 transition-premium"
-              onClick={() => navigateToSection('contact')}
-            >
-              Start Optimizing Now
-            </Button>
           </div>
         </section>
       </main>
