@@ -185,7 +185,7 @@ const WebApp = () => {
                   This is just one fun tool with no real impact. Get access to advanced 
                   analytics, automation scripts, and custom solutions tailored to your business when you work with us. Or check out the other free tools, which we promise are actually helpful!
                 </p>
-                <Link to="/contact">
+                <Link to="/#contact">
                   <Button className="gradient-primary shadow-glow transition-premium hover:scale-105">
                     Get in touch
                   </Button>

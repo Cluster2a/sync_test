@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Target, TrendingUp, Package, Zap, DollarSign, BarChart3, CheckCircle, AlertTriangle, ArrowDown, ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ToolAccessGate } from "@/components/ToolAccessGate";
 
 interface FormData {
   grossMargin: number | null;
@@ -143,6 +144,7 @@ const AcosTargetCalculator: React.FC = () => {
   };
 
   return (
+    <ToolAccessGate toolName="ACOS Target Calculator">
     <div className="min-h-screen gradient-hero p-6">
       <div className="container mx-auto max-w-4xl">
         <div className="mb-8">
@@ -453,6 +455,7 @@ const AcosTargetCalculator: React.FC = () => {
         )}
       </div>
     </div>
+    </ToolAccessGate>
   );
 };
 

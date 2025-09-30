@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calculator, TrendingUp, Upload, DollarSign, Users, Trash2, ArrowUp, ArrowDown, Minus } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ToolAccessGate } from "@/components/ToolAccessGate";
 
 interface YearDataRaw {
   Date: string;
@@ -353,7 +354,8 @@ const LifetimeValueApp: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen gradient-hero p-6">
+    <ToolAccessGate toolName="LTV Calculator">
+      <div className="min-h-screen gradient-hero p-6">
       <div className="container mx-auto max-w-7xl">
         <div className="mb-8">
           <Link 
@@ -660,6 +662,7 @@ const LifetimeValueApp: React.FC = () => {
         </div>
       </div>
     </div>
+    </ToolAccessGate>
   );
 };
 

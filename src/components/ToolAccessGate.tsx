@@ -132,7 +132,7 @@ export const ToolAccessGate: React.FC<ToolAccessGateProps> = ({ children, toolNa
             Free Tools Access
           </h1>
           <p className="text-muted-foreground text-lg">
-            Get instant access to our professional Amazon tools suite
+            Get instant access to our professional free Amazon tools suite
           </p>
         </div>
 
@@ -207,13 +207,13 @@ export const ToolAccessGate: React.FC<ToolAccessGateProps> = ({ children, toolNa
                       LTV Calculator
                     </Badge>
                     <Badge variant="outline" className="p-3 text-center">
-                      ACOS Calculator
+                      ACOS Target Calculator
                     </Badge>
                   </div>
                 </div>
 
                 <div className="text-xs text-center text-muted-foreground space-y-1">
-                  <p>• 30-day access to all free tools</p>
+                  <p>• 90-day access to all free tools</p>
                   <p>• No spam, just valuable marketplace insights</p>
                   <p>• Professional-grade tools used by successful sellers</p>
                 </div>
@@ -238,8 +238,7 @@ export const ToolAccessGate: React.FC<ToolAccessGateProps> = ({ children, toolNa
             </form>
 
             <div className="mt-6 pt-6 border-t border-primary/10 text-center text-xs text-muted-foreground">
-              By signing up, you agree to receive emails about marketplace optimization tips and our services. 
-              You can unsubscribe at any time.
+              When you sign up, we set a cookie that lasts 90 days to remember you, so you don’t have to enter your details again. You can delete it anytime in your browser settings.
             </div>
           </CardContent>
         </Card>
