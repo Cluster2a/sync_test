@@ -18,15 +18,29 @@ const Contact = () => {
     company: "",
     service: "",
     marketplaces: "",
-    message: ""
+    message: "",
+    website: "" // Honeypot field
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check honeypot - if filled, reject silently
+    if (formData.website.trim() !== '') {
+      console.log('Bot detected via honeypot');
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive"
+      });
+      setIsSubmitting(false);
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {
-      // First, save to Supabase
+      // First, save to Supabase with honeypot
       const { error: dbError } = await supabase
         .from('Contacts')
         .insert([
@@ -36,7 +50,8 @@ const Contact = () => {
             company: formData.company,
             service_interest: formData.service,
             current_marketplace: formData.marketplaces,
-            message: formData.message
+            message: formData.message,
+            honeypot: formData.website.trim() // Save honeypot value
           }
         ]);
 
@@ -79,7 +94,8 @@ const Contact = () => {
         company: "",
         service: "",
         marketplaces: "",
-        message: ""
+        message: "",
+        website: ""
       });
 
     } catch (error) {
@@ -142,6 +158,20 @@ const Contact = () => {
                         className="bg-background/50 border-primary/20 focus:border-primary"
                       />
                     </div>
+                  </div>
+                  
+                  {/* Honeypot field - hidden from users but visible to bots */}
+                  <div className="absolute opacity-0 pointer-events-none" aria-hidden="true" tabIndex={-1}>
+                    <Label htmlFor="website">Website</Label>
+                    <Input
+                      id="website"
+                      type="text"
+                      value={formData.website}
+                      onChange={(e) => handleInputChange("website", e.target.value)}
+                      placeholder="Your website URL"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
                   </div>
                   
                   <div className="space-y-2">
@@ -238,7 +268,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <div className="font-medium">Location</div>
-                      <div className="text-sm text-muted-foreground">Berlin, Munich, Barcelona</div>
+                      <div className="text-sm text-muted-foreground">Barcelona</div>
                     </div>
                   </div>
                   
