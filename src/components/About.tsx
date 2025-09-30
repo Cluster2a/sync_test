@@ -7,6 +7,7 @@ const About = () => {
     {
       name: "Alexander Swade",
       role: "CEO & Performance Marketing Lead",
+      image: "/images/team/alex_LI.png", 
       expertise: ["Amazon PPC", "Data Analytics", "Growth Strategy"],
       bio: "10+ years driving marketplace success with $ 1 billion+ in managed ad spend.",
       linkedin: "https://www.linkedin.com/in/alexanderswade/"
@@ -14,6 +15,7 @@ const About = () => {
     {
       name: "Marc Diss",
       role: "Head of Client Success",
+      image: "/images/team/marc_LI.png",
       expertise: ["Performance Marketing", "Market Research", "Client Relations"],
       bio: "10+ years of performance marketing expertise with deep marketplace insights.",
       linkedin: "https://www.linkedin.com/in/marcdiss/"
@@ -21,6 +23,7 @@ const About = () => {
     {
       name: "Patricia Sanz",
       role: "Tech Solutions Director",
+      image: "/images/team/pat_LI.png",
       expertise: ["Automation", "Custom Scripts", "Large-Scale Solutions"],
       bio: "Financial trader turned marketing professional that now specializes in automations, custom scripts and large-scale tech solutions.",
       linkedin: "https://www.linkedin.com/in/pmsanz/"
@@ -44,9 +47,13 @@ const About = () => {
           {team.map((member, index) => (
             <Card key={index} className="gradient-card border-primary/20 shadow-premium hover:shadow-glow transition-premium hover:scale-105 group">
               <CardContent className="p-6 text-center">
-                <div className="w-24 h-24 rounded-full gradient-primary mx-auto mb-4 flex items-center justify-center text-2xl font-bold text-primary-foreground">
-                  {member.name.split(' ').map(n => n[0]).join('')}
-                </div>
+                <div className="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden border-4 border-primary/20">
+                  <img 
+                     src={member.image} 
+                     alt={member.name}
+                     className="w-full h-full object-cover"
+                              />
+                  </div>
                 <h3 className="text-xl font-bold mb-2">{member.name}</h3>
                 <p className="text-primary font-medium mb-3">{member.role}</p>
                 <p className="text-sm text-muted-foreground mb-4">{member.bio}</p>
