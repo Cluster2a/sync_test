@@ -5,6 +5,7 @@ import { Calculator, BarChart3, Target, TrendingUp, Search, DollarSign, ArrowRig
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { navigateToSection } from "@/lib/navigation";
 
 
 const FreeTools = () => {
@@ -123,8 +124,12 @@ const FreeTools = () => {
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Join the group of other sellers and marketeers who are already using our tools to grow their business.
             </p>
-            <Button size="lg" className="gradient-primary shadow-glow hover:scale-105 transition-premium" asChild>
-              <Link to="/#contact">Start Optimizing Now</Link>
+            <Button 
+              size="lg" 
+              className="gradient-primary shadow-glow hover:scale-105 transition-premium"
+              onClick={() => navigateToSection('contact')}
+            >
+              Start Optimizing Now
             </Button>
           </div>
         </section>
