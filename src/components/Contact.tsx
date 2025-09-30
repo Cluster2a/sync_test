@@ -268,7 +268,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <div className="font-medium">Location</div>
-                      <div className="text-sm text-muted-foreground">Barcelona</div>
+                      <div className="text-sm text-muted-foreground">Berlin, Munich, Barcelona</div>
                     </div>
                   </div>
                   
