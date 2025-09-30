@@ -5,7 +5,7 @@ import { navigateToSection } from "@/lib/navigation";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center gradient-hero overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center gradient-hero overflow-hidden pt-20">
       <div className="absolute inset-0 bg-gradient-to-r from-background/80 to-transparent" />
       
       <div className="container mx-auto px-6 relative z-10">

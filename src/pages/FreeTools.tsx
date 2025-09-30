@@ -62,59 +62,71 @@ const FreeTools = () => {
           </div>
         </section>
 
-        {/* Tools Carousel */}
-        <section className="py-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <Carousel className="w-full">
-                <CarouselContent className="-ml-2 md:-ml-4">
-                  {tools.map((tool) => {
-                    const IconComponent = tool.icon;
-                    return (
-                      <CarouselItem key={tool.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-                        <Card className="gradient-card border-primary/20 hover:border-primary/40 transition-premium h-full">
-                          <CardHeader className="text-center">
-                            <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center mx-auto mb-4">
-                              <IconComponent className="h-8 w-8 text-primary-foreground" />
-                            </div>
-                            <CardTitle className="text-xl">{tool.title}</CardTitle>
-                            <CardDescription className="text-muted-foreground">
-                              {tool.description}
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent className="space-y-4">
-                            <div className="bg-primary/5 p-4 rounded-lg">
-                              <p className="text-sm text-muted-foreground mb-3">{tool.preview}</p>
-                              <div className="space-y-2">
-                                {tool.features.map((feature, index) => (
-                                  <div key={index} className="flex items-center gap-2 text-sm">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                                    <span>{feature}</span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                            <Button 
-                              className="w-full gradient-primary hover:scale-105 transition-premium group"
-                              asChild
-                            >
-                              <Link to={`/tools/${tool.id}`}>
-                                Access Tool
-                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                              </Link>
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      </CarouselItem>
-                    );
-                  })}
-                </CarouselContent>
-                <CarouselPrevious className="border-primary/20 hover:border-primary" />
-                <CarouselNext className="border-primary/20 hover:border-primary" />
-              </Carousel>
-            </div>
-          </div>
-        </section>
+  {/* Tools Carousel */}
+<section className="py-20">
+  <div className="container mx-auto px-6">
+    <div className="max-w-6xl mx-auto relative">
+      <Carousel className="w-full">
+        <CarouselContent className="-ml-2 md:-ml-4">
+          {tools.map((tool) => {
+            const IconComponent = tool.icon;
+            return (
+              <CarouselItem key={tool.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                <Card className="gradient-card border-primary/20 hover:border-primary/40 transition-premium h-full">
+                  <CardHeader className="text-center">
+                    <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center mx-auto mb-4">
+                      <IconComponent className="h-8 w-8 text-primary-foreground" />
+                    </div>
+                    <CardTitle className="text-xl">{tool.title}</CardTitle>
+                    <CardDescription className="text-muted-foreground">
+                      {tool.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="bg-primary/5 p-4 rounded-lg">
+                      <p className="text-sm text-muted-foreground mb-3">{tool.preview}</p>
+                      <div className="space-y-2">
+                        {tool.features.map((feature, index) => (
+                          <div key={index} className="flex items-center gap-2 text-sm">
+                            <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                            <span>{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <Button 
+                      className="w-full gradient-primary hover:scale-105 transition-premium group"
+                      asChild
+                    >
+                      <Link to={`/tools/${tool.id}`}>
+                        Access Tool
+                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </CarouselItem>
+            );
+          })}
+        </CarouselContent>
+        <CarouselPrevious className="md:flex hidden -left-12 border-primary/20 hover:border-primary hover:bg-primary hover:text-primary-foreground" />
+        <CarouselNext className="md:flex hidden -right-12 border-primary/20 hover:border-primary hover:bg-primary hover:text-primary-foreground" />
+        
+        {/* Mobile-only arrows - larger and more visible */}
+        <div className="flex md:hidden justify-center gap-4 mt-6">
+          <CarouselPrevious className="static translate-y-0 w-12 h-12 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg" />
+          <CarouselNext className="static translate-y-0 w-12 h-12 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg" />
+        </div>
+      </Carousel>
+      
+      {/* Swipe hint for mobile */}
+      <p className="text-center text-sm text-muted-foreground mt-4 md:hidden">
+        ← Swipe to see more tools →
+      </p>
+    </div>
+  </div>
+</section>
+
  {/* Call to Action */}
         <section className="py-20 gradient-hero">
           <div className="container mx-auto px-6 text-center">
