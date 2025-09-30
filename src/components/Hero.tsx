@@ -16,9 +16,9 @@ const Hero = () => {
           </div>
           
           <h1 className="mb-6 text-5xl md:text-7xl font-bold tracking-tight">
-            Scale Your
+            SYNQ the dots. Scale your brand. 
             <br />
-            Success
+            Align. Analyze. Act. All in SYNQ.
           </h1>
           
           <p className="mb-8 text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -47,11 +47,11 @@ const Hero = () => {
           
           <div className="text-center mb-8">
             <Link 
-              to="/tools/roi-calculator" 
+              to="/free-tools" 
               className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary-glow transition-premium bg-primary/10 hover:bg-primary/20 px-4 py-2 rounded-full"
             >
               <Calculator className="h-4 w-4" />
-              Try Our Free ROI Calculator
+              Try Our Free Tools
             </Link>
           </div>
           
