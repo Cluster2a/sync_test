@@ -109,51 +109,53 @@ const FreeTools = () => {
           {tools.map((tool) => {
             const IconComponent = tool.icon;
             return (
-              <CarouselItem key={tool.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-                <Card className="gradient-card border-primary/20 hover:border-primary/40 transition-premium h-full">
-                  <CardHeader className="text-center">
-                    <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center mx-auto mb-4">
-                      <IconComponent className="h-8 w-8 text-primary-foreground" />
-                    </div>
-                    <CardTitle className="text-xl">{tool.title}</CardTitle>
-                    <CardDescription className="text-muted-foreground">
-                      {tool.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="bg-primary/5 p-4 rounded-lg">
-                      <p className="text-sm text-muted-foreground mb-3">{tool.preview}</p>
-                      <div className="space-y-2">
-                        {tool.features.map((feature, index) => (
-                          <div key={index} className="flex items-center gap-2 text-sm">
-                            <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                            <span>{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    
-                   {tool.available ? (
-  <Button 
-    className="w-full gradient-primary hover:scale-105 transition-premium group"
-    asChild
-  >
-    <Link to={`/tools/${tool.id}`}>
-      Access Tool
-      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-    </Link>
-  </Button>
-) : (
-  <Button 
-    className="w-full bg-muted text-muted-foreground cursor-not-allowed"
-    disabled
-  >
-    Coming Soon
-  </Button>
-)}
-                  </CardContent>
-                </Card>
-              </CarouselItem>
+<CarouselItem key={tool.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+  <Card className="gradient-card border-primary/20 hover:border-primary/40 transition-premium h-full flex flex-col">
+    <CardHeader className="text-center">
+      <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center mx-auto mb-4">
+        <IconComponent className="h-8 w-8 text-primary-foreground" />
+      </div>
+      <CardTitle className="text-xl">{tool.title}</CardTitle>
+      <CardDescription className="text-muted-foreground">
+        {tool.description}
+      </CardDescription>
+    </CardHeader>
+    <CardContent className="space-y-4 flex-grow flex flex-col">
+      <div className="bg-primary/5 p-4 rounded-lg flex-grow">
+        <p className="text-sm text-muted-foreground mb-3">{tool.preview}</p>
+        <div className="space-y-2">
+          {tool.features.map((feature, index) => (
+            <div key={index} className="flex items-center gap-2 text-sm">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+              <span>{feature}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <div className="mt-auto pt-4">
+        {tool.available ? (
+          <Button 
+            className="w-full gradient-primary hover:scale-105 transition-premium group"
+            asChild
+          >
+            <Link to={`/tools/${tool.id}`}>
+              Access Tool
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Button>
+        ) : (
+          <Button 
+            className="w-full bg-muted text-muted-foreground cursor-not-allowed"
+            disabled
+          >
+            Coming Soon
+          </Button>
+        )}
+      </div>
+    </CardContent>
+  </Card>
+</CarouselItem>
             );
           })}
         </CarouselContent>
