@@ -18,7 +18,8 @@ const FreeTools = () => {
       description: "Calculate your marketing return on investment with precision",
       icon: Calculator,
       preview: "Input your marketing spend and revenue to get detailed ROI analysis",
-      features: ["Revenue tracking", "Cost analysis", "Profit margins", "Growth projections"]
+      features: ["Revenue tracking", "Cost analysis", "Profit margins", "Growth projections"],
+      available: true
     },
     {
       id: "lifetime-value",
@@ -30,8 +31,8 @@ const FreeTools = () => {
         "CSV upload for multiple years",
         "Dynamic gross margin & ad spend inputs",
         "One-time vs repeat customer breakdown",
-        "Customer Lifetime Value (Revenue & Profit)"
-      ]
+        "Customer Lifetime Value (Revenue & Profit)"],
+      available: true
     },
     {
       id: "acos-calculator",
@@ -39,8 +40,45 @@ const FreeTools = () => {
       description: "Calculate your ACOS Targets for your ASINS",
       icon: Target,
       preview: "Input your ASIN Details to calculate your ACOS Target",
-      features: ["Multi-factor analysis", "Inventory impact assessment", "Strategy-based targeting", "Performance benchmarking"]
+      features: ["Multi-factor analysis", "Inventory impact assessment", "Strategy-based targeting", "Performance benchmarking"],
+      available: true
     },
+    {
+    id: "ngram-analysis",
+    title: "N-Gram Analysis",
+    description: "Analyze search term patterns to discover high-performing keyword combinations",
+    icon: Search,
+    preview: "Upload your search terms report for advanced n-gram pattern analysis",
+    features: ["CSV upload support", "Multi-gram analysis (2-4 word combinations)", "Performance metrics breakdown", "Keyword opportunity identification"],
+    available: false
+  },
+  {
+    id: "bid-optimizer",
+    title: "Bid Optimizer",
+    description: "Calculate optimal bids based on target ACOS for each ASIN",
+    icon: TrendingUp,
+    preview: "Input target ACOS and campaign data to get recommended bid adjustments",
+    features: ["ASIN-level bid recommendations", "Target ACOS-based optimization", "Historical performance analysis", "Automated bid suggestions"],
+    available: false
+  },
+  {
+    id: "impression-share",
+    title: "Search Term Impression Share Analyzer",
+    description: "Analyze impression share performance at the keyword level",
+    icon: BarChart3,
+    preview: "Understand your share of voice for top of search and other placements",
+    features: ["Keyword-level impression data", "Top of search analysis", "Competitive positioning insights", "Share of voice trends"],
+    available: false
+  },
+  {
+    id: "forecasting",
+    title: "Forecasting Tool",
+    description: "Predict future sales based on seasonality and velocity trends by ASIN",
+    icon: TrendingUp,
+    preview: "Upload historical data to forecast units sold up to 6 months ahead",
+    features: ["6-month sales forecasting", "Seasonality adjustment", "Velocity trend analysis", "Confidence intervals"],
+    available: false
+  },
   ];
 
 
@@ -94,15 +132,25 @@ const FreeTools = () => {
                         ))}
                       </div>
                     </div>
-                    <Button 
-                      className="w-full gradient-primary hover:scale-105 transition-premium group"
-                      asChild
-                    >
-                      <Link to={`/tools/${tool.id}`}>
-                        Access Tool
-                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </Link>
-                    </Button>
+                    
+                   {tool.available ? (
+  <Button 
+    className="w-full gradient-primary hover:scale-105 transition-premium group"
+    asChild
+  >
+    <Link to={`/tools/${tool.id}`}>
+      Access Tool
+      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+    </Link>
+  </Button>
+) : (
+  <Button 
+    className="w-full bg-muted text-muted-foreground cursor-not-allowed"
+    disabled
+  >
+    Coming Soon
+  </Button>
+)}
                   </CardContent>
                 </Card>
               </CarouselItem>

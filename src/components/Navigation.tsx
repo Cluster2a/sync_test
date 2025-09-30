@@ -36,7 +36,7 @@ const Navigation = () => {
             <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-lg">SQ</span>
             </div>
-            <span className="font-bold text-xl">Ads, Analytics, Automation — SYNQ’d.</span>
+            <span className="font-bold text-xl">Ads, Automation, Analytics: SYNQ’d</span>
           </div>
 
           {/* Desktop Navigation */}
