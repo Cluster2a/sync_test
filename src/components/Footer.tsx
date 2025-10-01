@@ -82,9 +82,10 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>&copy; {currentYear} SYNQ. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link to="/legal" className="hover:text-primary transition-premium">Privacy Policy</Link>
-            <Link to="/legal" className="hover:text-primary transition-premium">Terms of Service</Link>
-            <Link to="/legal" className="hover:text-primary transition-premium">Cookie Policy</Link>
+            <Link to="/legal#impressum" className="hover:text-primary transition-premium">Impressum</Link>
+            <Link to="/legal#privacy" className="hover:text-primary transition-premium">Privacy Policy</Link>
+            <Link to="/legal#terms" className="hover:text-primary transition-premium">Terms of Service</Link>
+            <Link to="/legal#cookies" className="hover:text-primary transition-premium">Cookie Policy</Link>
           </div>
         </div>
       </div>

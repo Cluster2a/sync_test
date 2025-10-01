@@ -25,8 +25,73 @@ const Legal = () => {
         <section className="py-16">
           <div className="container mx-auto px-6 max-w-4xl">
             
+            {/* Impressum */}
+            <Card id="impressum" className="gradient-card border-primary/20 shadow-premium mb-12">
+              <CardHeader>
+                <CardTitle className="text-3xl">Impressum</CardTitle>
+                <p className="text-muted-foreground">Angaben gemäß § 5 TMG</p>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-semibold mb-3">Diensteanbieter</h3>
+                  <p className="text-muted-foreground">
+                    Alexander Swade<br />
+                    Hochfeld 15<br />
+                    84184 Tiefenbach<br />
+                    Deutschland
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold mb-3">Kontaktmöglichkeiten</h3>
+                  <p className="text-muted-foreground mb-2">
+                    <strong>E-Mail-Adresse:</strong>{" "}
+                    <a href="mailto:hello@wearesynq.com" className="text-primary hover:underline">
+                      hello@wearesynq.com
+                    </a>
+                  </p>
+                  <p className="text-muted-foreground">
+                    <strong>Telefon:</strong> +49 151 5810 2274
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold mb-3">Umsatzsteuer-Identifikationsnummer</h3>
+                  <p className="text-muted-foreground">
+                    USt-IdNr.: DE317300588
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold mb-3">Journalistische Inhalte</h3>
+                  <p className="text-muted-foreground">
+                    <strong>Verantwortlich nach § 18 Abs. 2 MStV:</strong><br />
+                    Alexander Swade<br />
+                    Hochfeld 15<br />
+                    84184 Tiefenbach<br />
+                    Deutschland
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold mb-3">Haftungsausschluss</h3>
+                  <p className="text-muted-foreground mb-3">
+                    <strong>Haftung für Inhalte:</strong> Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+                  </p>
+                  <p className="text-muted-foreground mb-3">
+                    <strong>Haftung für Links:</strong> Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+                  </p>
+                  <p className="text-muted-foreground">
+                    <strong>Urheberrecht:</strong> Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Separator className="my-12" />
+
             {/* Privacy Policy */}
-            <Card className="gradient-card border-primary/20 shadow-premium mb-12">
+            <Card id="privacy" className="gradient-card border-primary/20 shadow-premium mb-12">
               <CardHeader>
                 <CardTitle className="text-3xl">Privacy Policy</CardTitle>
                 <p className="text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</p>
@@ -111,7 +176,7 @@ const Legal = () => {
             <Separator className="my-12" />
 
             {/* Terms of Service */}
-            <Card className="gradient-card border-primary/20 shadow-premium mb-12">
+            <Card id="terms" className="gradient-card border-primary/20 shadow-premium mb-12">
               <CardHeader>
                 <CardTitle className="text-3xl">Terms of Service</CardTitle>
                 <p className="text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</p>
@@ -187,7 +252,7 @@ const Legal = () => {
             <Separator className="my-12" />
 
             {/* Cookie Policy */}
-            <Card className="gradient-card border-primary/20 shadow-premium">
+            <Card id="cookies" className="gradient-card border-primary/20 shadow-premium">
               <CardHeader>
                 <CardTitle className="text-3xl">Cookie Policy</CardTitle>
                 <p className="text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</p>
