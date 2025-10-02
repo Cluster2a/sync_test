@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowLeft, Calculator, TrendingUp, Upload, DollarSign, Users, Trash2, ArrowUp, ArrowDown, Minus } from "lucide-react";
+import { ArrowLeft, Calculator, TrendingUp, Upload, DollarSign, Users, Trash2, ArrowUp, ArrowDown, Minus, AlertTriangle, CheckCircle, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ToolAccessGate } from "@/components/ToolAccessGate";
 
@@ -69,6 +69,17 @@ interface YearComputed {
   repeatPctCustomerBase: number;
   clvRev: number;
   clvProfit: number;
+  tacos: number;
+  cac: number;
+  adSpend: number;
+  grossMargin: number;
+}
+
+interface Recommendation {
+  type: 'success' | 'warning' | 'alert';
+  title: string;
+  description: string;
+  actions: string[];
 }
 
 function formatCurrency(n: number, currency: string): string {
@@ -195,7 +206,9 @@ function computeMetrics(raw: YearDataRaw, input: YearInputs): YearComputed {
 
   const clvRev = repeatCustomerLifetimeValueRev * repeatPctCustomerBase + oneTimeAvgCustomerValueRev * oneTimePctCustomerBase;
   const clvProfit = repeatCustomerLifetimeValueProfit * repeatPctCustomerBase + oneTimeAvgCustomerValueProfit * oneTimePctCustomerBase;
-
+  const tacos = totalSales > 0 ? (input.adSpend / totalSales) * 100 : 0;
+  const cac = newToBrandCustomers > 0 ? input.adSpend / newToBrandCustomers : 0;
+  
   return {
     year: input.year,
     // Raw CSV data
@@ -233,6 +246,11 @@ function computeMetrics(raw: YearDataRaw, input: YearInputs): YearComputed {
     repeatPctCustomerBase,
     clvRev,
     clvProfit,
+    tacos,
+    cac,
+    adSpend: input.adSpend,
+    grossMargin: input.grossMargin
+};
   };
 }
 
@@ -260,6 +278,104 @@ function calculateYoY(current: number, previous: number): { percentage: number; 
       color: "text-muted-foreground" 
     };
   }
+}
+
+function generateRecommendations(latest: YearComputed): Recommendation[] {
+  const recommendations: Recommendation[] = [];
+  const lifetimeYears = latest.repeatCustomerLifespan;
+  const cacPaybackRatio = latest.clvProfit > 0 ? latest.cac / latest.clvProfit : Infinity;
+  const ltvCacRatio = latest.cac > 0 ? latest.clvProfit / latest.cac : Infinity;
+
+  if (cacPaybackRatio < 0.3) {
+    recommendations.push({
+      type: 'success',
+      title: 'Excellent Customer Acquisition Efficiency',
+      description: `Your CAC of ${formatCurrency(latest.cac, 'USD')} pays back in approximately ${(cacPaybackRatio * lifetimeYears * 12).toFixed(1)} months (${(cacPaybackRatio * 100).toFixed(0)}% of your ${lifetimeYears}-year LTV Profit). This is highly profitable.`,
+      actions: [
+        'Consider scaling ad spend to acquire more customers at this profitable rate',
+        'Test new marketing channels while maintaining current efficiency',
+        'Document your winning strategies to replicate across products'
+      ]
+    });
+  } else if (cacPaybackRatio >= 0.5 && cacPaybackRatio <= 1.0) {
+    recommendations.push({
+      type: 'warning',
+      title: 'Long CAC Payback Period',
+      description: `Your CAC of ${formatCurrency(latest.cac, 'USD')} represents ${(cacPaybackRatio * 100).toFixed(0)}% of your ${lifetimeYears}-year LTV Profit. You're near breakeven after ${lifetimeYears} years.`,
+      actions: [
+        'Improve retention programs to extend customer lifespan',
+        'Reduce CAC through better ad targeting',
+        'Increase average order value through bundling',
+        'Consider implementing subscription models'
+      ]
+    });
+  } else if (cacPaybackRatio > 1.0) {
+    recommendations.push({
+      type: 'alert',
+      title: '⚠️ Unprofitable Customer Acquisition',
+      description: `Your CAC of ${formatCurrency(latest.cac, 'USD')} exceeds your ${lifetimeYears}-year LTV Profit of ${formatCurrency(latest.clvProfit, 'USD')}. You're losing ${formatCurrency(latest.cac - latest.clvProfit, 'USD')} per customer.`,
+      actions: [
+        'IMMEDIATE: Reduce ad spend or pause unprofitable campaigns',
+        'Improve ad targeting to lower acquisition costs',
+        'Increase prices if market allows',
+        'Focus on organic growth before scaling paid acquisition'
+      ]
+    });
+  }
+
+  const tacosThreshold = (latest.grossMargin * 100) - 15;
+  if (latest.tacos > tacosThreshold) {
+    recommendations.push({
+      type: 'alert',
+      title: 'TACoS Too High Relative to Margins',
+      description: `Your TACoS of ${latest.tacos.toFixed(1)}% leaves only ${((latest.grossMargin * 100) - latest.tacos).toFixed(1)}% margin for operations and profit.`,
+      actions: [
+        'Reduce overall ad spend to improve profitability',
+        'Improve organic ranking to decrease PPC dependency',
+        'Optimize product listings to boost conversion rates',
+        'Use negative keywords to eliminate wasted spend'
+      ]
+    });
+  } else if (latest.tacos < 15 && ltvCacRatio > 4) {
+    recommendations.push({
+      type: 'success',
+      title: 'Growth Opportunity Detected',
+      description: `Your TACoS of ${latest.tacos.toFixed(1)}% is conservative and your LTV:CAC ratio of ${ltvCacRatio.toFixed(1)}:1 is strong. You may be under-investing in growth.`,
+      actions: [
+        'Consider increasing ad spend to capture more market share',
+        'Test expansion into new keyword categories',
+        'Your unit economics support aggressive growth'
+      ]
+    });
+  }
+
+  if (latest.tacos > 30 && ltvCacRatio > 4) {
+    recommendations.push({
+      type: 'warning',
+      title: 'High TACoS Justified by Strong Retention',
+      description: `Despite TACoS of ${latest.tacos.toFixed(1)}%, your strong LTV:CAC ratio of ${ltvCacRatio.toFixed(1)}:1 justifies the investment.`,
+      actions: [
+        'Continue current spend but monitor repeat rates closely',
+        'Implement retention programs to maintain high LTV',
+        'Track cohort behavior to validate LTV assumptions'
+      ]
+    });
+  }
+
+  if (ltvCacRatio < 3 && ltvCacRatio !== Infinity) {
+    recommendations.push({
+      type: 'alert',
+      title: 'LTV:CAC Ratio Below Healthy Threshold',
+      description: `Your LTV:CAC ratio of ${ltvCacRatio.toFixed(1)}:1 is below the recommended 3:1 minimum.`,
+      actions: [
+        'Target ratio: 3:1 or higher for sustainable growth',
+        'Either reduce CAC or increase customer lifetime value',
+        'Review and optimize underperforming campaigns'
+      ]
+    });
+  }
+
+  return recommendations;
 }
 
 const LifetimeValueApp: React.FC = () => {
@@ -343,16 +459,20 @@ const LifetimeValueApp: React.FC = () => {
   const tableMetrics = [
     { key: 'clvRev', label: 'LTV Revenue', format: 'currency', category: 'key' },
     { key: 'clvProfit', label: 'LTV Profit', format: 'currency', category: 'key' },
+    { key: 'tacos', label: 'TACoS %', format: 'percentage', category: 'key' },
+    { key: 'cac', label: 'CAC (Customer Acquisition Cost)', format: 'currency', category: 'key' },
     { key: 'totalCustomers', label: 'Total Customers', format: 'number', category: 'raw' },
     { key: 'totalSales', label: 'Total Sales', format: 'currency', category: 'raw' },
     { key: 'totalOrders', label: 'Total Orders', format: 'number', category: 'raw' },
     { key: 'repeatCustomers', label: 'Repeat Customers', format: 'number', category: 'raw' },
+    { key: 'newToBrandCustomers', label: 'New to Brand Customers', format: 'number', category: 'raw' },
     { key: 'repeatSales', label: 'Repeat Sales', format: 'currency', category: 'raw' },
     { key: 'repeatOrders', label: 'Repeat Orders', format: 'number', category: 'raw' },
     { key: 'repeatCustomerRate', label: 'Repeat Customer Rate', format: 'percentage', category: 'calculated' },
     { key: 'contributionProfitPct', label: 'Contribution Profit %', format: 'percentage', category: 'calculated' },
     { key: 'contributionProfit', label: 'Contribution Profit', format: 'currency', category: 'calculated' },
   ];
+  const recommendations = computed.length > 0 ? generateRecommendations(computed[computed.length - 1]) : [];
 
   return (
     <ToolAccessGate toolName="LTV Calculator">
@@ -623,7 +743,43 @@ const LifetimeValueApp: React.FC = () => {
             </Card>
           </div>
         )}
-
+        
+      {/* Recommendations Section */}
+        {recommendations.length > 0 && (
+          <div className="space-y-4 mb-8">
+            <h2 className="text-2xl font-bold text-center">Strategic Recommendations</h2>
+            {recommendations.map((rec, idx) => (
+              <Card key={idx} className={`gradient-card shadow-premium ${
+                rec.type === 'success' ? 'border-green-500/20' :
+                rec.type === 'warning' ? 'border-yellow-500/20' :
+                'border-red-500/20'
+              }`}>
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-3 mb-3">
+                    {rec.type === 'success' && <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />}
+                    {rec.type === 'warning' && <AlertCircle className="h-6 w-6 text-yellow-600 flex-shrink-0 mt-1" />}
+                    {rec.type === 'alert' && <AlertTriangle className="h-6 w-6 text-red-600 flex-shrink-0 mt-1" />}
+                    <div>
+                      <h3 className="text-lg font-semibold">{rec.title}</h3>
+                      <p className="text-muted-foreground mt-2">{rec.description}</p>
+                    </div>
+                  </div>
+                  <div className="ml-9">
+                    <p className="font-semibold text-sm mb-2">Action Items:</p>
+                    <ul className="space-y-1">
+                      {rec.actions.map((action, i) => (
+                        <li key={i} className="text-sm flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
+                          <span>{action}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
         <div className="mt-12">
           <Card className="gradient-card border-primary/20 shadow-premium">
             <CardContent className="p-6">
