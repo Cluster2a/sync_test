@@ -179,6 +179,8 @@ function computeMetrics(raw: YearDataRaw, input: YearInputs): YearComputed {
   const repeatCustomers = raw["Repeat Customers"];
   const repeatSales = raw["Repeat Sales"];
   const repeatOrders = raw["Repeat Orders"];
+  const newToBrandCustomers = raw["New to Brand Customers"] || 0;  
+
 
   const grossProfit = totalSales * input.grossMargin;
   const contributionProfit = grossProfit - input.adSpend;
