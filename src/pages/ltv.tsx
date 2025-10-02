@@ -250,7 +250,6 @@ function computeMetrics(raw: YearDataRaw, input: YearInputs): YearComputed {
     cac,
     adSpend: input.adSpend,
     grossMargin: input.grossMargin
-};
   };
 }
 
@@ -743,7 +742,7 @@ const LifetimeValueApp: React.FC = () => {
             </Card>
           </div>
         )}
-        
+
       {/* Recommendations Section */}
         {recommendations.length > 0 && (
           <div className="space-y-4 mb-8">
