@@ -460,7 +460,7 @@ const LifetimeValueApp: React.FC = () => {
   const tableMetrics = [
     { key: 'clvRev', label: 'LTV Revenue', format: 'currency', category: 'key' },
     { key: 'clvProfit', label: 'LTV Profit', format: 'currency', category: 'key' },
-    { key: 'tacos', label: 'TACoS %', format: 'percentage', category: 'key' },
+    { key: 'tacos', label: 'TACoS %', format: 'tacos', category: 'key' },
     { key: 'cac', label: 'CAC (Customer Acquisition Cost)', format: 'currency', category: 'key' },
     { key: 'totalCustomers', label: 'Total Customers', format: 'number', category: 'raw' },
     { key: 'totalSales', label: 'Total Sales', format: 'currency', category: 'raw' },
@@ -714,8 +714,10 @@ const LifetimeValueApp: React.FC = () => {
                             </td>
                             {computed.map(c => (
                               <td key={`${c.year}-${metric.key}`} className="text-center p-4">
-                                {metric.format === 'currency' 
+                               {metric.format === 'currency' 
                                   ? formatCurrency(c[metric.key as keyof YearComputed] as number, currency)
+                                  : metric.format === 'tacos'
+                                  ? `${(c[metric.key as keyof YearComputed] as number).toFixed(1)}%`
                                   : metric.format === 'percentage'
                                   ? `${((c[metric.key as keyof YearComputed] as number) * 100).toFixed(1)}%`
                                   : formatNumber(c[metric.key as keyof YearComputed] as number)
