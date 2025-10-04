@@ -533,9 +533,9 @@ return (
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend wrapperStyle={{ fontSize: '14px' }} />
-                  <Bar dataKey="amazonRevenue" stackId="a" fill="#ff9900" name="Amazon" />
-                  <Bar dataKey="tiktokRevenue" stackId="a" fill="#000000" name="TikTok" />
-                  <Bar dataKey="dtcRevenue" stackId="a" fill="#10b981" name="DTC" />
+               <Bar dataKey="amazonRevenue" stackId="a" fill="#FF9900" name="Amazon" />
+<Bar dataKey="tiktokRevenue" stackId="a" fill="#A855F7" name="TikTok" />
+<Bar dataKey="dtcRevenue" stackId="a" fill="#10b981" name="DTC" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -561,10 +561,10 @@ return (
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend wrapperStyle={{ fontSize: '14px' }} />
-                  <Bar dataKey="amazonSpend" stackId="a" fill="#ff9900" name="Amazon Ads" />
-                  <Bar dataKey="tiktokSpend" stackId="a" fill="#000000" name="TikTok Ads" />
-                  <Bar dataKey="googleSpend" stackId="a" fill="#4285f4" name="Google Ads" />
-                  <Bar dataKey="metaSpend" stackId="a" fill="#1877f2" name="Meta Ads" />
+                <Bar dataKey="amazonSpend" stackId="a" fill="#FF9900" name="Amazon Ads" />
+<Bar dataKey="tiktokSpend" stackId="a" fill="#A855F7" name="TikTok Ads" />
+<Bar dataKey="googleSpend" stackId="a" fill="#3B82F6" name="Google Ads" />
+<Bar dataKey="metaSpend" stackId="a" fill="#10b981" name="Meta Ads" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
