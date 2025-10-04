@@ -222,7 +222,6 @@ export const ToolAccessGate: React.FC<ToolAccessGateProps> = ({ children, toolNa
                   <p>• No spam, just valuable marketplace insights</p>
                   <p>• Professional-grade tools used by successful sellers</p>
                 </div>
-              </div>
 
               <Button 
                 type="submit" 
