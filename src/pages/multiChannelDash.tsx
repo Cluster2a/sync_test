@@ -305,7 +305,7 @@ return (
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground mb-2">
-          Multi-Channel Marketing Dashboard
+          Multi-Channel Marketing Dashboard by SYNQ.
         </h1>
         <p className="text-muted-foreground">
           Track revenue, spend, and performance across all marketing channels. View your data on daily, weekly or monthly grain. Compare actuals vs goals. Check your monthly runrate to see an estimation where you'll land at the end of month.
@@ -343,7 +343,7 @@ return (
             <h2 className="text-lg font-semibold text-foreground">Monthly Goals</h2>
           </div>
           <p className="text-sm text-muted-foreground mb-3">
-            Upload monthly goals with columns: Month (YYYY-MM), Revenue Goal, Marketing Budget
+            Upload monthly goals with columns: Month (YYYY-MM), Revenue Goal, Marketing Budget (CSV Header must be month,revenue goal,marketing budget)
           </p>
           <input
             type="file"
@@ -554,11 +554,12 @@ return (
                     stroke="hsl(var(--muted-foreground))"
                     tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
                   />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--primary) / 0.1)' }} />
                   <Legend wrapperStyle={{ fontSize: '14px' }} />
+
                <Bar dataKey="amazonRevenue" stackId="a" fill="#FF9900" name="Amazon" />
-<Bar dataKey="tiktokRevenue" stackId="a" fill="#A855F7" name="TikTok" />
-<Bar dataKey="dtcRevenue" stackId="a" fill="#10b981" name="DTC" />
+<Bar dataKey="tiktokRevenue" stackId="a" fill="#6d399eff" name="TikTok" />
+<Bar dataKey="dtcRevenue" stackId="a" fill="#0c825aff" name="DTC" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -582,12 +583,12 @@ return (
                     stroke="hsl(var(--muted-foreground))"
                     tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
                   />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--primary) / 0.1)' }} />
                   <Legend wrapperStyle={{ fontSize: '14px' }} />
                 <Bar dataKey="amazonSpend" stackId="a" fill="#FF9900" name="Amazon Ads" />
-<Bar dataKey="tiktokSpend" stackId="a" fill="#A855F7" name="TikTok Ads" />
+<Bar dataKey="tiktokSpend" stackId="a" fill="#6d399eff" name="TikTok Ads" />
 <Bar dataKey="googleSpend" stackId="a" fill="#3B82F6" name="Google Ads" />
-<Bar dataKey="metaSpend" stackId="a" fill="#10b981" name="Meta Ads" />
+<Bar dataKey="metaSpend" stackId="a" fill="#0c825aff" name="Meta Ads" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
