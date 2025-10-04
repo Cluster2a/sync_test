@@ -11,6 +11,7 @@ import Legal from "./pages/Legal";
 import NotFound from "./pages/NotFound";
 import LifetimeValueApp from "./pages/ltv";
 import AcosTargetCalculator from "./pages/acosCalculator";
+import MultiChannelDash from "./pages/multiChannelDash";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/tools/roi-calculator" element={<WebApp />} />
           <Route path="/tools/lifetime-value" element={<LifetimeValueApp />} />
           <Route path="/tools/acos-calculator" element={<AcosTargetCalculator />} />
+          <Route path="/tools/marketing-dashboard" element={<MultiChannelDash />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
