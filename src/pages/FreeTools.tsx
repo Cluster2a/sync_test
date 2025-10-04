@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Calculator, BarChart3, Target, TrendingUp, Search, DollarSign, ArrowRight } from "lucide-react";
+import { Calculator, BarChart3, Target, TrendingUp, Search, DollarSign, ArrowRight, LineChart } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
@@ -12,16 +12,7 @@ import { navigateToSection } from "@/lib/navigation";
 const FreeTools = () => {
 
   const tools = [
-    {
-      id: "roi-calculator",
-      title: "ROI Calculator",
-      description: "Calculate your marketing return on investment with precision",
-      icon: Calculator,
-      preview: "Input your marketing spend and revenue to get detailed ROI analysis",
-      features: ["Revenue tracking", "Cost analysis", "Profit margins", "Growth projections"],
-      available: true
-    },
-    {
+        {
       id: "lifetime-value",
       title: "Lifetime Value Calculator",
       description: "Estimate customer lifetime revenue and profit for Amazon brands",
@@ -41,6 +32,29 @@ const FreeTools = () => {
       icon: Target,
       preview: "Input your ASIN Details to calculate your ACOS Target",
       features: ["Multi-factor analysis", "Inventory impact assessment", "Strategy-based targeting", "Performance benchmarking"],
+      available: true
+    },
+    {
+      id: "marketing-dashboard",
+      title: "Multi-Channel Marketing Dashboard",
+      description: "Track and analyze performance across all your marketing channels in one place",
+      icon: LineChart, 
+      preview: "Upload your daily channel data and monthly goals to visualize revenue, spend, MER, and TACOS with dynamic time views",
+      features: [
+        "Daily/Weekly/Monthly views", 
+        "Revenue vs Goal tracking", 
+        "Channel mix analysis", 
+        "Runrate forecasting"
+      ],
+      available: true
+      }
+     {
+      id: "roi-calculator",
+      title: "ROI Calculator",
+      description: "Calculate your marketing return on investment with precision",
+      icon: Calculator,
+      preview: "Input your marketing spend and revenue to get detailed ROI analysis",
+      features: ["Revenue tracking", "Cost analysis", "Profit margins", "Growth projections"],
       available: true
     },
     {

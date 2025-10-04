@@ -197,21 +197,25 @@ export const ToolAccessGate: React.FC<ToolAccessGateProps> = ({ children, toolNa
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <div className="text-center">
-                  <h3 className="font-semibold mb-3">What you'll get access to:</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <Badge variant="outline" className="p-3 text-center">
-                      ROI Calculator
-                    </Badge>
-                    <Badge variant="outline" className="p-3 text-center">
-                      LTV Calculator
-                    </Badge>
-                    <Badge variant="outline" className="p-3 text-center">
-                      ACOS Target Calculator
-                    </Badge>
+                              <div className="space-y-4">
+                    <div className="text-center">
+                      <h3 className="font-semibold mb-3">What you'll get access to:</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <Badge variant="outline" className="p-3 text-center">
+                          ROI Calculator
+                        </Badge>
+                        <Badge variant="outline" className="p-3 text-center">
+                          LTV Calculator
+                        </Badge>
+                        <Badge variant="outline" className="p-3 text-center">
+                          ACOS Target Calculator
+                        </Badge>
+                        <Badge variant="outline" className="p-3 text-center">
+                          Multi-Channel Dashboard
+                        </Badge>
+                      </div>
+                    </div>
                   </div>
-                </div>
 
                 <div className="text-xs text-center text-muted-foreground space-y-1">
                   <p>• 90-day access to all free tools</p>
@@ -239,7 +243,9 @@ export const ToolAccessGate: React.FC<ToolAccessGateProps> = ({ children, toolNa
             </form>
 
             <div className="mt-6 pt-6 border-t border-primary/10 text-center text-xs text-muted-foreground">
-              When you sign up, we set a cookie that lasts 90 days to remember you, so you don’t have to enter your details again. You can delete it anytime in your browser settings.
+              When you sign up, you agree to let us contact you about our tools and services. 
+              We set a cookie that lasts 90 days to remember you, so you don't have to enter your details again. You can delete it anytime in your browser settings.
+
             </div>
           </CardContent>
         </Card>
