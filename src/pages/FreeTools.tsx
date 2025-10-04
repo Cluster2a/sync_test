@@ -47,7 +47,7 @@ const FreeTools = () => {
         "Runrate forecasting"
       ],
       available: true
-      }
+      },
      {
       id: "roi-calculator",
       title: "ROI Calculator",
