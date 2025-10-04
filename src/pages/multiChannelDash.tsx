@@ -467,177 +467,240 @@ return (
               </ResponsiveContainer>
             </div>
 
-            {/* Continue with other charts using same pattern... */}
+            {/* Spend vs Budget Chart */}
             <div className="gradient-card border-primary/20 shadow-premium rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4 text-foreground">Spend Performance</h3>
-              {/* Same pattern for other charts */}
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={metricsWithGoals}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--primary) / 0.1)" />
+                  <XAxis 
+                    dataKey="period" 
+                    fontSize={12} 
+                    stroke="hsl(var(--muted-foreground))"
+                    angle={timeView === 'daily' ? -45 : 0}
+                    textAnchor={timeView === 'daily' ? 'end' : 'middle'}
+                    height={timeView === 'daily' ? 60 : 30}
+                  />
+                  <YAxis 
+                    fontSize={12} 
+                    stroke="hsl(var(--muted-foreground))"
+                    tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: '14px' }} />
+                  <Line 
+                    type="monotone" 
+                    dataKey="totalSpend" 
+                    stroke="#ef4444" 
+                    strokeWidth={3} 
+                    name="Actual Spend"
+                    dot={{ fill: '#ef4444', r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                  {goalsData.length > 0 && (
+                    <Line 
+                      type="monotone" 
+                      dataKey="marketingBudget" 
+                      stroke="#a855f7" 
+                      strokeWidth={2} 
+                      strokeDasharray="5 5" 
+                      name="Budget"
+                      dot={false}
+                    />
+                  )}
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Revenue Mix Chart */}
+            <div className="gradient-card border-primary/20 shadow-premium rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Revenue Channel Mix</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={metricsWithGoals}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--primary) / 0.1)" />
+                  <XAxis 
+                    dataKey="period" 
+                    fontSize={12} 
+                    stroke="hsl(var(--muted-foreground))"
+                    angle={timeView === 'daily' ? -45 : 0}
+                    textAnchor={timeView === 'daily' ? 'end' : 'middle'}
+                    height={timeView === 'daily' ? 60 : 30}
+                  />
+                  <YAxis 
+                    fontSize={12} 
+                    stroke="hsl(var(--muted-foreground))"
+                    tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: '14px' }} />
+                  <Bar dataKey="amazonRevenue" stackId="a" fill="#ff9900" name="Amazon" />
+                  <Bar dataKey="tiktokRevenue" stackId="a" fill="#000000" name="TikTok" />
+                  <Bar dataKey="dtcRevenue" stackId="a" fill="#10b981" name="DTC" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Spend Mix Chart */}
+            <div className="gradient-card border-primary/20 shadow-premium rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Spend Channel Mix</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={metricsWithGoals}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--primary) / 0.1)" />
+                  <XAxis 
+                    dataKey="period" 
+                    fontSize={12} 
+                    stroke="hsl(var(--muted-foreground))"
+                    angle={timeView === 'daily' ? -45 : 0}
+                    textAnchor={timeView === 'daily' ? 'end' : 'middle'}
+                    height={timeView === 'daily' ? 60 : 30}
+                  />
+                  <YAxis 
+                    fontSize={12} 
+                    stroke="hsl(var(--muted-foreground))"
+                    tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: '14px' }} />
+                  <Bar dataKey="amazonSpend" stackId="a" fill="#ff9900" name="Amazon Ads" />
+                  <Bar dataKey="tiktokSpend" stackId="a" fill="#000000" name="TikTok Ads" />
+                  <Bar dataKey="googleSpend" stackId="a" fill="#4285f4" name="Google Ads" />
+                  <Bar dataKey="metaSpend" stackId="a" fill="#1877f2" name="Meta Ads" />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </div>
 
-          {/* Runrate Analysis Section */}
-          {goalsData.length > 0 && (
-            <div className="gradient-card border-primary/20 shadow-premium rounded-lg p-6 mb-8">
-              <h2 className="text-xl font-bold mb-6 text-foreground">Runrate Analysis</h2>
-              
-              {/* Current Month Forecast */}
-              {runrateAnalysis.current && (
-                <div className="mb-8 p-6 bg-primary/10 rounded-lg border border-primary/20">
-                  <h3 className="text-lg font-semibold mb-4 text-foreground">
-                    Current Month Forecast ({runrateAnalysis.current.month})
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Based on {runrateAnalysis.current.daysTracked} days of data (out of {runrateAnalysis.current.daysInMonth} days)
-                  </p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="gradient-card border-primary/20 p-4 rounded-lg">
-                      <h4 className="font-semibold text-foreground mb-3">Revenue Forecast</h4>
-                      {/* Rest of forecast content */}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Completed Months table with same styling pattern */}
+          {/* Full Detailed Data Table */}
+          <div className="gradient-card border-primary/20 shadow-premium rounded-lg overflow-hidden mb-8">
+            <div className="p-6 border-b border-primary/20">
+              <h2 className="text-xl font-bold text-foreground">Detailed Performance Data</h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Complete breakdown of all channels and metrics
+              </p>
             </div>
-          )}
-        </>
-      )}
-    </div>
-  </div>
-);
-
-            {/* Full Detailed Data Table */}
-<div className="gradient-card border-primary/20 shadow-premium rounded-lg overflow-hidden">
-  <div className="p-6 border-b border-primary/20">
-    <h2 className="text-xl font-bold text-foreground">Detailed Performance Data</h2>
-    <p className="text-sm text-muted-foreground mt-1">
-      Complete breakdown of all channels and metrics
-    </p>
-  </div>
-  <div className="overflow-x-auto">
-    <table className="min-w-full divide-y divide-primary/20">
-      <thead className="bg-background/50">
-        <tr>
-          <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase sticky left-0 bg-background/50">
-            Period
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-            Amazon Rev
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-            TikTok Rev
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-            DTC Rev
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase font-bold">
-            Total Rev
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-            Amazon Ads
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-            TikTok Ads
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-            Google Ads
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-            Meta Ads
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase font-bold">
-            Total Spend
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-            MER
-          </th>
-          <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-            TACOS
-          </th>
-          {goalsData.length > 0 && (
-            <>
-              <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-                Rev Goal
-              </th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-                Rev Δ %
-              </th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-                Budget
-              </th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-                Spend Δ %
-              </th>
-            </>
-          )}
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-primary/20">
-        {metricsWithGoals.map((row, idx) => (
-          <tr key={idx} className="hover:bg-primary/5 transition-colors">
-            <td className="px-4 py-3 text-sm font-medium text-foreground sticky left-0 bg-background/95">
-              {row.period}
-            </td>
-            <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-              {formatCurrency(row.amazonRevenue)}
-            </td>
-            <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-              {formatCurrency(row.tiktokRevenue)}
-            </td>
-            <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-              {formatCurrency(row.dtcRevenue)}
-            </td>
-            <td className="px-4 py-3 text-sm text-right font-bold text-foreground bg-green-500/10">
-              {formatCurrency(row.totalRevenue)}
-            </td>
-            <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-              {formatCurrency(row.amazonSpend)}
-            </td>
-            <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-              {formatCurrency(row.tiktokSpend)}
-            </td>
-            <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-              {formatCurrency(row.googleSpend)}
-            </td>
-            <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-              {formatCurrency(row.metaSpend)}
-            </td>
-            <td className="px-4 py-3 text-sm text-right font-bold text-foreground bg-red-500/10">
-              {formatCurrency(row.totalSpend)}
-            </td>
-            <td className="px-4 py-3 text-sm text-right text-primary font-medium">
-              {row.mer.toFixed(2)}x
-            </td>
-            <td className="px-4 py-3 text-sm text-right text-primary font-medium">
-              {row.tacos.toFixed(1)}%
-            </td>
-            {goalsData.length > 0 && (
-              <>
-                <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-                  {row.revenueGoal > 0 ? formatCurrency(row.revenueGoal) : '-'}
-                </td>
-                <td className={`px-4 py-3 text-sm text-right font-semibold ${
-                  row.revenueDelta >= 0 ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {row.revenueGoal > 0 ? formatPercent(row.revenueDeltaPercent) : '-'}
-                </td>
-                <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-                  {row.marketingBudget > 0 ? formatCurrency(row.marketingBudget) : '-'}
-                </td>
-                <td className={`px-4 py-3 text-sm text-right font-semibold ${
-                  row.spendDelta <= 0 ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {row.marketingBudget > 0 ? formatPercent(row.spendDeltaPercent) : '-'}
-                </td>
-              </>
-            )}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-primary/20">
+                <thead className="bg-background/50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase sticky left-0 bg-background/50">
+                      Period
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                      Amazon Rev
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                      TikTok Rev
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                      DTC Rev
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase font-bold">
+                      Total Rev
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                      Amazon Ads
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                      TikTok Ads
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                      Google Ads
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                      Meta Ads
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase font-bold">
+                      Total Spend
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                      MER
+                    </th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                      TACOS
+                    </th>
+                    {goalsData.length > 0 && (
+                      <>
+                        <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                          Rev Goal
+                        </th>
+                        <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                          Rev Δ %
+                        </th>
+                        <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                          Budget
+                        </th>
+                        <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+                          Spend Δ %
+                        </th>
+                      </>
+                    )}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-primary/20">
+                  {metricsWithGoals.map((row, idx) => (
+                    <tr key={idx} className="hover:bg-primary/5 transition-colors">
+                      <td className="px-4 py-3 text-sm font-medium text-foreground sticky left-0 bg-background/95">
+                        {row.period}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                        {formatCurrency(row.amazonRevenue)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                        {formatCurrency(row.tiktokRevenue)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                        {formatCurrency(row.dtcRevenue)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right font-bold text-foreground bg-green-500/10">
+                        {formatCurrency(row.totalRevenue)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                        {formatCurrency(row.amazonSpend)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                        {formatCurrency(row.tiktokSpend)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                        {formatCurrency(row.googleSpend)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                        {formatCurrency(row.metaSpend)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right font-bold text-foreground bg-red-500/10">
+                        {formatCurrency(row.totalSpend)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right text-primary font-medium">
+                        {row.mer.toFixed(2)}x
+                      </td>
+                      <td className="px-4 py-3 text-sm text-right text-primary font-medium">
+                        {row.tacos.toFixed(1)}%
+                      </td>
+                      {goalsData.length > 0 && (
+                        <>
+                          <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                            {row.revenueGoal > 0 ? formatCurrency(row.revenueGoal) : '-'}
+                          </td>
+                          <td className={`px-4 py-3 text-sm text-right font-semibold ${
+                            row.revenueDelta >= 0 ? 'text-green-600' : 'text-red-600'
+                          }`}>
+                            {row.revenueGoal > 0 ? formatPercent(row.revenueDeltaPercent) : '-'}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                            {row.marketingBudget > 0 ? formatCurrency(row.marketingBudget) : '-'}
+                          </td>
+                          <td className={`px-4 py-3 text-sm text-right font-semibold ${
+                            row.spendDelta <= 0 ? 'text-green-600' : 'text-red-600'
+                          }`}>
+                            {row.marketingBudget > 0 ? formatPercent(row.spendDeltaPercent) : '-'}
+                          </td>
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </>
       )}
 
