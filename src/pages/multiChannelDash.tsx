@@ -125,34 +125,56 @@ const MarketingDashboard = () => {
     })).sort((a, b) => a.period.localeCompare(b.period));
   }, [channelData, timeView]);
 
-  // Calculate metrics with goals
-  const metricsWithGoals = useMemo(() => {
-    if (aggregatedData.length === 0) return aggregatedData;
+ // Calculate metrics with goals
+const metricsWithGoals = useMemo(() => {
+  if (aggregatedData.length === 0) return aggregatedData;
 
-    return aggregatedData.map(row => {
-      const monthKey = typeof row.date === 'string' 
-        ? row.date.substring(0, 7) 
-        : `${row.date.getFullYear()}-${(row.date.getMonth() + 1).toString().padStart(2, '0')}`;
-      
-      const goal = goalsData.find(g => g.month === monthKey);
-      
-      return {
-        ...row,
-        mer: row.totalSpend > 0 ? row.totalRevenue / row.totalSpend : 0,
-        tacos: row.totalRevenue > 0 ? (row.totalSpend / row.totalRevenue) * 100 : 0,
-        revenueGoal: goal?.revenueGoal || 0,
-        marketingBudget: goal?.marketingBudget || 0,
-        revenueDelta: goal ? row.totalRevenue - goal.revenueGoal : 0,
-        spendDelta: goal ? row.totalSpend - goal.marketingBudget : 0,
-        revenueDeltaPercent: goal && goal.revenueGoal > 0 
-          ? ((row.totalRevenue - goal.revenueGoal) / goal.revenueGoal) * 100 
-          : 0,
-        spendDeltaPercent: goal && goal.marketingBudget > 0 
-          ? ((row.totalSpend - goal.marketingBudget) / goal.marketingBudget) * 100 
-          : 0,
-      };
-    });
-  }, [aggregatedData, goalsData]);
+  return aggregatedData.map(row => {
+    const monthKey = typeof row.date === 'string' 
+      ? row.date.substring(0, 7) 
+      : `${row.date.getFullYear()}-${(row.date.getMonth() + 1).toString().padStart(2, '0')}`;
+    
+    const goal = goalsData.find(g => g.month === monthKey);
+    
+    // Calculate prorated goals based on time view
+    let proratedRevenueGoal = 0;
+    let proratedMarketingBudget = 0;
+    
+    if (goal) {
+      if (timeView === 'monthly') {
+        // Full month - use original goals
+        proratedRevenueGoal = goal.revenueGoal;
+        proratedMarketingBudget = goal.marketingBudget;
+      } else if (timeView === 'weekly') {
+        // Weekly - divide monthly goal by ~4.33 weeks per month
+        proratedRevenueGoal = goal.revenueGoal / 4.33;
+        proratedMarketingBudget = goal.marketingBudget / 4.33;
+      } else {
+        // Daily - divide by days in that month
+        const monthDate = new Date(monthKey + '-01');
+        const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+        proratedRevenueGoal = goal.revenueGoal / daysInMonth;
+        proratedMarketingBudget = goal.marketingBudget / daysInMonth;
+      }
+    }
+    
+    return {
+      ...row,
+      mer: row.totalSpend > 0 ? row.totalRevenue / row.totalSpend : 0,
+      tacos: row.totalRevenue > 0 ? (row.totalSpend / row.totalRevenue) * 100 : 0,
+      revenueGoal: proratedRevenueGoal,
+      marketingBudget: proratedMarketingBudget,
+      revenueDelta: proratedRevenueGoal > 0 ? row.totalRevenue - proratedRevenueGoal : 0,
+      spendDelta: proratedMarketingBudget > 0 ? row.totalSpend - proratedMarketingBudget : 0,
+      revenueDeltaPercent: proratedRevenueGoal > 0 
+        ? ((row.totalRevenue - proratedRevenueGoal) / proratedRevenueGoal) * 100 
+        : 0,
+      spendDeltaPercent: proratedMarketingBudget > 0 
+        ? ((row.totalSpend - proratedMarketingBudget) / proratedMarketingBudget) * 100 
+        : 0,
+    };
+  });
+}, [aggregatedData, goalsData, timeView]);
 
   // Calculate overall summary metrics
   const summaryMetrics = useMemo(() => {
@@ -175,6 +197,7 @@ const MarketingDashboard = () => {
       avgTACOS: totalRevenue > 0 ? (totalSpend / totalRevenue) * 100 : 0
     };
   }, [metricsWithGoals]);
+ 
   // Runrate analysis for completed and current months
   const runrateAnalysis = useMemo(() => {
     if (channelData.length === 0 || goalsData.length === 0) return { completed: [], current: null };
