@@ -557,7 +557,7 @@ return (
                   <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--primary) / 0.1)' }} />
                   <Legend wrapperStyle={{ fontSize: '14px' }} />
 
-               <Bar dataKey="amazonRevenue" stackId="a" fill="#FF9900" name="Amazon" />
+               <Bar dataKey="amazonRevenue" stackId="a" fill="#d78201ff" name="Amazon" />
 <Bar dataKey="tiktokRevenue" stackId="a" fill="#6d399eff" name="TikTok" />
 <Bar dataKey="dtcRevenue" stackId="a" fill="#0c825aff" name="DTC" />
                 </BarChart>
@@ -585,7 +585,7 @@ return (
                   />
                   <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--primary) / 0.1)' }} />
                   <Legend wrapperStyle={{ fontSize: '14px' }} />
-                <Bar dataKey="amazonSpend" stackId="a" fill="#FF9900" name="Amazon Ads" />
+                <Bar dataKey="amazonSpend" stackId="a" fill="#d78201ff" name="Amazon Ads" />
 <Bar dataKey="tiktokSpend" stackId="a" fill="#6d399eff" name="TikTok Ads" />
 <Bar dataKey="googleSpend" stackId="a" fill="#3B82F6" name="Google Ads" />
 <Bar dataKey="metaSpend" stackId="a" fill="#0c825aff" name="Meta Ads" />
