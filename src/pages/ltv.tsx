@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowLeft, Calculator, TrendingUp, Upload, DollarSign, Users, Trash2, ArrowUp, ArrowDown, Minus, AlertTriangle, CheckCircle, AlertCircle } from "lucide-react";
+import { ArrowLeft, Calculator, TrendingUp, Upload, DollarSign, Users, Trash2, ArrowUp, ArrowDown, Minus, AlertTriangle, CheckCircle, AlertCircle,ChevronDown  } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ToolAccessGate } from "@/components/ToolAccessGate";
 
@@ -503,6 +503,41 @@ const LifetimeValueApp: React.FC = () => {
             </p>
           </div>
         </div>
+
+{/* How to Use Section - Collapsible */}
+<div className="mb-8">
+  <Card className="gradient-card border-primary/20 shadow-premium">
+    <CardHeader 
+      className="cursor-pointer hover:bg-primary/5 transition-colors"
+      onClick={() => setShowHowTo(!showHowTo)}
+    >
+      <CardTitle className="flex items-center justify-between">
+        <span className="flex items-center gap-2">
+          <span>How to Use This Tool</span>
+        </span>
+        <div className={`transition-transform duration-300 ${showHowTo ? 'rotate-180' : ''}`}>
+          <ChevronDown className="h-5 w-5" />
+        </div>
+      </CardTitle>
+    </CardHeader>
+    {showHowTo && (
+      <CardContent className="pt-0">
+        <div className="aspect-video w-full rounded-lg overflow-hidden">
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/7UrQYvM3m_w"
+            title="How to use Multi-Channel Marketing Dashboard"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full h-full"
+          ></iframe>
+        </div>
+      </CardContent>
+    )}
+  </Card>
+</div>
 
         {errors.length > 0 && (
           <Card className="mb-6 border-red-500/20">

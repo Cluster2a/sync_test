@@ -343,7 +343,7 @@ return (
     >
       <CardTitle className="flex items-center justify-between">
         <span className="flex items-center gap-2">
-          <span>📖 How to Use This Tool</span>
+          <span>How to Use This Tool</span>
         </span>
         <div className={`transition-transform duration-300 ${showHowTo ? 'rotate-180' : ''}`}>
           <ChevronDown className="h-5 w-5" />
