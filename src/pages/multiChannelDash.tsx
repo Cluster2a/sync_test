@@ -203,7 +203,7 @@ const metricsWithGoals = useMemo(() => {
   }, [metricsWithGoals]);
  
   // **Runrate analysis for completed and current months
-  const runrateAnalysis = useMemo(() => {
+ const runrateAnalysis = useMemo(() => {
   if (channelData.length === 0 || goalsData.length === 0) return { completed: [], current: null };
 
   const now = new Date();
@@ -217,18 +217,25 @@ const metricsWithGoals = useMemo(() => {
         month: monthKey,
         totalRevenue: 0,
         totalSpend: 0,
-        days: 0,
-        dates: []
+        dates: []  // Keep the dates array
       };
     }
     
     monthlyData[monthKey].totalRevenue += day.amazonRevenue + day.tiktokRevenue + day.dtcRevenue;
     monthlyData[monthKey].totalSpend += day.amazonSpend + day.tiktokSpend + day.googleSpend + day.metaSpend;
-    monthlyData[monthKey].days += 1;
     monthlyData[monthKey].dates.push(day.date);
+    // 🔴 REMOVED: monthlyData[monthKey].days += 1;
   });
 
-  // 🟢 NEW: Find the most recent month in the dataset
+  // 🟢 NEW: Calculate unique days for each month
+  Object.keys(monthlyData).forEach(monthKey => {
+    const uniqueDates = new Set(
+      monthlyData[monthKey].dates.map(d => d.toISOString().split('T')[0])
+    );
+    monthlyData[monthKey].days = uniqueDates.size;
+  });
+
+  // Find the most recent month in the dataset
   const sortedMonths = Object.keys(monthlyData).sort();
   const mostRecentMonthKey = sortedMonths[sortedMonths.length - 1];
   const mostRecentMonthData = monthlyData[mostRecentMonthKey];
@@ -257,7 +264,6 @@ const metricsWithGoals = useMemo(() => {
     const goal = goalsData.find(g => g.month === monthKey);
     if (!goal) return;
 
-    // 🟢 CHANGED: Check if this is the most recent incomplete month
     const isCurrentMonth = monthKey === mostRecentMonthKey && isIncomplete;
     const monthDate = new Date(monthKey + '-01');
     const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
@@ -294,7 +300,7 @@ const metricsWithGoals = useMemo(() => {
 
   return { completed: completed.sort((a, b) => a.month.localeCompare(b.month)), current };
 }, [channelData, goalsData]);
-  // **Runrate analysis ENd
+  // **Runrate analysis End
 
 
   const formatCurrency = (value) => {
@@ -593,77 +599,6 @@ return (
   </div>
 )}
 
-{/* Completed Months Performance */}
-{runrateAnalysis.completed.length > 0 && (
-  <div className="gradient-card border-primary/20 shadow-premium rounded-lg overflow-hidden mb-8">
-    <div className="p-6 border-b border-primary/20">
-      <h2 className="text-xl font-bold text-foreground">Historical Month-End Performance</h2>
-      <p className="text-sm text-muted-foreground mt-1">
-        Completed months vs goals
-      </p>
-    </div>
-    <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-primary/20">
-        <thead className="bg-background/50">
-          <tr>
-            <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">
-              Month
-            </th>
-            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-              Revenue Goal
-            </th>
-            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-              Actual Revenue
-            </th>
-            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-              Revenue Δ %
-            </th>
-            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-              Budget
-            </th>
-            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-              Actual Spend
-            </th>
-            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
-              Spend Δ %
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-primary/20">
-          {runrateAnalysis.completed.map((month, idx) => (
-            <tr key={idx} className="hover:bg-primary/5 transition-colors">
-              <td className="px-4 py-3 text-sm font-medium text-foreground">
-                {month.month}
-              </td>
-              <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-                {formatCurrency(month.revenueGoal)}
-              </td>
-              <td className="px-4 py-3 text-sm text-right font-semibold text-foreground">
-                {formatCurrency(month.actualRevenue)}
-              </td>
-              <td className={`px-4 py-3 text-sm text-right font-bold ${
-                month.revenueDelta >= 0 ? 'text-green-600' : 'text-red-600'
-              }`}>
-                {formatPercent(month.revenuePercent)}
-              </td>
-              <td className="px-4 py-3 text-sm text-right text-muted-foreground">
-                {formatCurrency(month.marketingBudget)}
-              </td>
-              <td className="px-4 py-3 text-sm text-right font-semibold text-foreground">
-                {formatCurrency(month.actualSpend)}
-              </td>
-              <td className={`px-4 py-3 text-sm text-right font-bold ${
-                month.spendDelta <= 0 ? 'text-green-600' : 'text-red-600'
-              }`}>
-                {formatPercent(month.spendPercent)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-)}
 
           {/* Charts Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
