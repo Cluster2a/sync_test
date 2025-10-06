@@ -386,6 +386,8 @@ const LifetimeValueApp: React.FC = () => {
   const [computed, setComputed] = useState<YearComputed[]>([]);
   const [uploadStatus, setUploadStatus] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [showHowTo, setShowHowTo] = useState(false);
+
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
