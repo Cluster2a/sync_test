@@ -202,104 +202,117 @@ const metricsWithGoals = useMemo(() => {
     };
   }, [metricsWithGoals]);
  
-  // **Runrate analysis for completed and current months
- const runrateAnalysis = useMemo(() => {
-  if (channelData.length === 0 || goalsData.length === 0) return { completed: [], current: null };
 
-  const now = new Date();
-  
-  const monthlyData = {};
-  channelData.forEach(day => {
-    const monthKey = `${day.date.getFullYear()}-${(day.date.getMonth() + 1).toString().padStart(2, '0')}`;
-    
-    if (!monthlyData[monthKey]) {
-      monthlyData[monthKey] = {
-        month: monthKey,
-        totalRevenue: 0,
-        totalSpend: 0,
-        dates: []  // Keep the dates array
-      };
-    }
-    
-    monthlyData[monthKey].totalRevenue += day.amazonRevenue + day.tiktokRevenue + day.dtcRevenue;
-    monthlyData[monthKey].totalSpend += day.amazonSpend + day.tiktokSpend + day.googleSpend + day.metaSpend;
-    monthlyData[monthKey].dates.push(day.date);
-    // 🔴 REMOVED: monthlyData[monthKey].days += 1;
-  });
+    // Runrate analysis for completed and current months
+            const runrateAnalysis = useMemo(() => {
+              if (channelData.length === 0 || goalsData.length === 0) return { completed: [], current: null };
 
-  // 🟢 NEW: Calculate unique days for each month
-  Object.keys(monthlyData).forEach(monthKey => {
-    const uniqueDates = new Set(
-      monthlyData[monthKey].dates.map(d => d.toISOString().split('T')[0])
-    );
-    monthlyData[monthKey].days = uniqueDates.size;
-  });
+              const now = new Date();
+              
+              const monthlyData = {};
+              channelData.forEach(day => {
+                const monthKey = `${day.date.getFullYear()}-${(day.date.getMonth() + 1).toString().padStart(2, '0')}`;
+                
+                // Skip days where ALL values are NaN/null/undefined (empty template rows)
+                const hasAnyValue = ![
+                  day.amazonRevenue, 
+                  day.tiktokRevenue, 
+                  day.dtcRevenue,
+                  day.amazonSpend, 
+                  day.tiktokSpend, 
+                  day.googleSpend, 
+                  day.metaSpend
+                ].every(val => val === null || val === undefined || isNaN(val));
+                
+                if (!hasAnyValue) return; // Skip empty template rows
+                
+                if (!monthlyData[monthKey]) {
+                  monthlyData[monthKey] = {
+                    month: monthKey,
+                    totalRevenue: 0,
+                    totalSpend: 0,
+                    dates: []
+                  };
+                }
+                
+                monthlyData[monthKey].totalRevenue += day.amazonRevenue + day.tiktokRevenue + day.dtcRevenue;
+                monthlyData[monthKey].totalSpend += day.amazonSpend + day.tiktokSpend + day.googleSpend + day.metaSpend;
+                monthlyData[monthKey].dates.push(day.date);
+              });
 
-  // Find the most recent month in the dataset
-  const sortedMonths = Object.keys(monthlyData).sort();
-  const mostRecentMonthKey = sortedMonths[sortedMonths.length - 1];
-  const mostRecentMonthData = monthlyData[mostRecentMonthKey];
-  
-  // Check if the most recent month is incomplete
-  const mostRecentMonthDate = new Date(mostRecentMonthKey + '-01');
-  const daysInMostRecentMonth = new Date(
-    mostRecentMonthDate.getFullYear(), 
-    mostRecentMonthDate.getMonth() + 1, 
-    0
-  ).getDate();
-  
-  const isIncomplete = mostRecentMonthData.days < daysInMostRecentMonth;
+              // Calculate unique days for each month
+              Object.keys(monthlyData).forEach(monthKey => {
+                const uniqueDates = new Set(
+                  monthlyData[monthKey].dates.map(d => d.toISOString().split('T')[0])
+                );
+                monthlyData[monthKey].days = uniqueDates.size;
+              });
 
-  const completed = [];
-  let current = null;
+              // Find the most recent month in the dataset
+              const sortedMonths = Object.keys(monthlyData).sort();
+              const mostRecentMonthKey = sortedMonths[sortedMonths.length - 1];
+              const mostRecentMonthData = monthlyData[mostRecentMonthKey];
+              
+              // Check if the most recent month is incomplete
+              const mostRecentMonthDate = new Date(mostRecentMonthKey + '-01');
+              const daysInMostRecentMonth = new Date(
+                mostRecentMonthDate.getFullYear(), 
+                mostRecentMonthDate.getMonth() + 1, 
+                0
+              ).getDate();
+              
+              const isIncomplete = mostRecentMonthData.days < daysInMostRecentMonth;
 
-  Object.entries(monthlyData).forEach(([monthKey, data]) => {
-    // Skip months with no data
-    if (data.days === 0) return;
-    
-    // Skip future months
-    const isFutureMonth = new Date(monthKey + '-01') > now;
-    if (isFutureMonth) return;
-    
-    const goal = goalsData.find(g => g.month === monthKey);
-    if (!goal) return;
+              const completed = [];
+              let current = null;
 
-    const isCurrentMonth = monthKey === mostRecentMonthKey && isIncomplete;
-    const monthDate = new Date(monthKey + '-01');
-    const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+              Object.entries(monthlyData).forEach(([monthKey, data]) => {
+                // Skip months with no data
+                if (data.days === 0) return;
+                
+                // Skip future months
+                const isFutureMonth = new Date(monthKey + '-01') > now;
+                if (isFutureMonth) return;
+                
+                const goal = goalsData.find(g => g.month === monthKey);
+                if (!goal) return;
 
-    if (isCurrentMonth) {
-      const avgDailyRevenue = data.totalRevenue / data.days;
-      const avgDailySpend = data.totalSpend / data.days;
-      
-      current = {
-        month: monthKey,
-        actualRevenue: data.totalRevenue,
-        actualSpend: data.totalSpend,
-        forecastedRevenue: avgDailyRevenue * daysInMonth,
-        forecastedSpend: avgDailySpend * daysInMonth,
-        revenueGoal: goal.revenueGoal,
-        marketingBudget: goal.marketingBudget,
-        daysTracked: data.days,
-        daysInMonth: daysInMonth,
-      };
-    } else if (data.days >= 25) {
-      completed.push({
-        month: monthKey,
-        revenueGoal: goal.revenueGoal,
-        actualRevenue: data.totalRevenue,
-        revenueDelta: data.totalRevenue - goal.revenueGoal,
-        revenuePercent: ((data.totalRevenue - goal.revenueGoal) / goal.revenueGoal * 100),
-        marketingBudget: goal.marketingBudget,
-        actualSpend: data.totalSpend,
-        spendDelta: data.totalSpend - goal.marketingBudget,
-        spendPercent: ((data.totalSpend - goal.marketingBudget) / goal.marketingBudget * 100),
-      });
-    }
-  });
+                const isCurrentMonth = monthKey === mostRecentMonthKey && isIncomplete;
+                const monthDate = new Date(monthKey + '-01');
+                const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
 
-  return { completed: completed.sort((a, b) => a.month.localeCompare(b.month)), current };
-}, [channelData, goalsData]);
+                if (isCurrentMonth) {
+                  const avgDailyRevenue = data.totalRevenue / data.days;
+                  const avgDailySpend = data.totalSpend / data.days;
+                  
+                  current = {
+                    month: monthKey,
+                    actualRevenue: data.totalRevenue,
+                    actualSpend: data.totalSpend,
+                    forecastedRevenue: avgDailyRevenue * daysInMonth,
+                    forecastedSpend: avgDailySpend * daysInMonth,
+                    revenueGoal: goal.revenueGoal,
+                    marketingBudget: goal.marketingBudget,
+                    daysTracked: data.days,
+                    daysInMonth: daysInMonth,
+                  };
+                } else if (data.days >= 25) {
+                  completed.push({
+                    month: monthKey,
+                    revenueGoal: goal.revenueGoal,
+                    actualRevenue: data.totalRevenue,
+                    revenueDelta: data.totalRevenue - goal.revenueGoal,
+                    revenuePercent: ((data.totalRevenue - goal.revenueGoal) / goal.revenueGoal * 100),
+                    marketingBudget: goal.marketingBudget,
+                    actualSpend: data.totalSpend,
+                    spendDelta: data.totalSpend - goal.marketingBudget,
+                    spendPercent: ((data.totalSpend - goal.marketingBudget) / goal.marketingBudget * 100),
+                  });
+                }
+              });
+
+              return { completed: completed.sort((a, b) => a.month.localeCompare(b.month)), current };
+            }, [channelData, goalsData]);
   // **Runrate analysis End
 
 
