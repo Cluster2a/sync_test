@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Link } from "react-router-dom";
 import { Upload, TrendingUp, DollarSign, Target, Calendar, ChevronDown, ArrowLeft } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer  } from 'recharts';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Papa from 'papaparse';
 
 const MarketingDashboard = () => {
