@@ -2,13 +2,15 @@ import React, { useState, useMemo } from 'react';
 import { Link } from "react-router-dom";
 import { Upload, TrendingUp, DollarSign, Target, Calendar } from 'lucide-react';
 import Papa from 'papaparse';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ChevronDown  } from 'recharts';
 
 const MarketingDashboard = () => {
   const [channelData, setChannelData] = useState([]);
   const [goalsData, setGoalsData] = useState([]);
   const [timeView, setTimeView] = useState('daily');
   const [uploadStatus, setUploadStatus] = useState({ channel: false, goals: false });
+  const [showHowTo, setShowHowTo] = useState(false);
+
 
   // Handle CSV file uploads
   const handleFileUpload = (type, file) => {
@@ -330,6 +332,42 @@ return (
     </p>
   </div>
 </div>
+
+{/* How to Use Section - Collapsible */}
+<div className="mb-8">
+  <Card className="gradient-card border-primary/20 shadow-premium">
+    <CardHeader 
+      className="cursor-pointer hover:bg-primary/5 transition-colors"
+      onClick={() => setShowHowTo(!showHowTo)}
+    >
+      <CardTitle className="flex items-center justify-between">
+        <span className="flex items-center gap-2">
+          <span>📖 How to Use This Tool</span>
+        </span>
+        <div className={`transition-transform duration-300 ${showHowTo ? 'rotate-180' : ''}`}>
+          <ChevronDown className="h-5 w-5" />
+        </div>
+      </CardTitle>
+    </CardHeader>
+    {showHowTo && (
+      <CardContent className="pt-0">
+        <div className="aspect-video w-full rounded-lg overflow-hidden">
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/7UrQYvM3m_w"
+            title="How to use Multi-Channel Marketing Dashboard"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full h-full"
+          ></iframe>
+        </div>
+      </CardContent>
+    )}
+  </Card>
+</div>
+
 
       {/* File Upload Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
