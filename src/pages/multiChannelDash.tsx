@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from "react-router-dom";
 import { Upload, TrendingUp, DollarSign, Target, Calendar } from 'lucide-react';
 import Papa from 'papaparse';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -300,17 +301,35 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 return (
-  <div className="min-h-screen gradient-hero p-6">
+ <div className="min-h-screen gradient-hero p-6">
     <div className="max-w-7xl mx-auto">
-      {/* Header */}
+      {/* Back Button */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">
-          Multi-Channel Marketing Dashboard by SYNQ.
-        </h1>
-        <p className="text-muted-foreground">
-          Track revenue, spend, and performance across all marketing channels. View your data on daily, weekly or monthly grain. Compare actuals vs goals. Check your monthly runrate to see an estimation where you'll land at the end of month.
-        </p>
+        <Link 
+          to="/" 
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-premium mb-6"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Home
+        </Link>
       </div>
+      
+      {/* Header */}
+<div className="mb-8">
+  <div className="text-center">
+    <div className="inline-flex items-center gap-2 mb-4">
+      <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center">
+        <LineChart className="h-6 w-6 text-primary-foreground" />
+      </div>
+    </div>
+    <h1 className="text-4xl font-bold mb-2">
+      Multi-Channel Marketing Dashboard by SYNQ.
+    </h1>
+    <p className="text-muted-foreground">
+      Track revenue, spend, and performance across all marketing channels. View your data on daily, weekly or monthly grain. Compare actuals vs goals. Check your monthly runrate to see an estimation where you'll land at the end of month.
+    </p>
+  </div>
+</div>
 
       {/* File Upload Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
