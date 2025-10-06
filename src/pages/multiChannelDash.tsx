@@ -14,50 +14,56 @@ const MarketingDashboard = () => {
 
 
   // Handle CSV file uploads
-  const handleFileUpload = (type, file) => {
-    Papa.parse(file, {
-      header: true,
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      delimitersToGuess: [',', '\t', '|', ';'],
-      complete: (results) => {
-        if (type === 'channel') {
-          // Process channel performance data
-          const processedData = results.data.map(row => {
-            const headers = Object.keys(row);
-            
-            return {
-              date: new Date(row.Date || row.date),
-              amazonRevenue: parseFloat(row['Amazon Revenue'] || row.amazonRevenue || row['Amazon'] || 0),
-              tiktokRevenue: parseFloat(row['TikTok Revenue'] || row.tiktokRevenue || row['TikTok'] || 0),
-              dtcRevenue: parseFloat(row['DTC Revenue'] || row.dtcRevenue || row['DTC'] || 0),
-              amazonSpend: parseFloat(row['Amazon Ads'] || row.amazonSpend || row['Amazon Spend'] || 0),
-              tiktokSpend: parseFloat(row['TikTok Ads'] || row.tiktokSpend || row['TikTok Spend'] || 0),
-              googleSpend: parseFloat(row['Google Ads'] || row.googleSpend || row['Google Spend'] || 0),
-              metaSpend: parseFloat(row['Meta Ads'] || row.metaSpend || row['Meta Spend'] || 0),
-            };
-          }).filter(row => !isNaN(row.date.getTime()));
-          
-          setChannelData(processedData.sort((a, b) => a.date - b.date));
-          setUploadStatus(prev => ({ ...prev, channel: true }));
-        } else {
-          // Process goals data
-          const processedGoals = results.data.map(row => ({
-            month: row.Month || row.month,
-            revenueGoal: parseFloat(row['Revenue Goal'] || row.revenueGoal || row['Revenue'] || 0),
-            marketingBudget: parseFloat(row['Marketing Budget'] || row.marketingBudget || row['Budget'] || 0),
-          })).filter(row => row.month);
-          
-          setGoalsData(processedGoals);
-          setUploadStatus(prev => ({ ...prev, goals: true }));
-        }
-      },
-      error: (error) => {
-        console.error('CSV parsing error:', error);
-        alert(`Error parsing CSV: ${error.message}`);
-      }
-    });
-  };
+                  const handleFileUpload = (type, file) => {
+            Papa.parse(file, {
+              header: true,
+              dynamicTyping: true,
+              skipEmptyLines: true,
+              delimitersToGuess: [',', '\t', '|', ';'],
+              complete: (results) => {
+                if (type === 'channel') {
+                  // Process channel performance data
+                  const processedData = results.data.map(row => {
+                    const headers = Object.keys(row);
+                    
+                    // Helper function to parse and keep NaN for empty cells
+                    const parseValue = (val) => {
+                      if (val === null || val === undefined || val === '') return NaN;
+                      return parseFloat(val);
+                    };
+                    
+                    return {
+                      date: new Date(row.Date || row.date),
+                      amazonRevenue: parseValue(row['Amazon Revenue'] || row.amazonRevenue || row['Amazon']),
+                      tiktokRevenue: parseValue(row['TikTok Revenue'] || row.tiktokRevenue || row['TikTok']),
+                      dtcRevenue: parseValue(row['DTC Revenue'] || row.dtcRevenue || row['DTC']),
+                      amazonSpend: parseValue(row['Amazon Ads'] || row.amazonSpend || row['Amazon Spend']),
+                      tiktokSpend: parseValue(row['TikTok Ads'] || row.tiktokSpend || row['TikTok Spend']),
+                      googleSpend: parseValue(row['Google Ads'] || row.googleSpend || row['Google Spend']),
+                      metaSpend: parseValue(row['Meta Ads'] || row.metaSpend || row['Meta Spend']),
+                    };
+                  }).filter(row => !isNaN(row.date.getTime()));
+                  
+                  setChannelData(processedData.sort((a, b) => a.date - b.date));
+                  setUploadStatus(prev => ({ ...prev, channel: true }));
+                } else {
+                  // Process goals data
+                  const processedGoals = results.data.map(row => ({
+                    month: row.Month || row.month,
+                    revenueGoal: parseFloat(row['Revenue Goal'] || row.revenueGoal || row['Revenue'] || 0),
+                    marketingBudget: parseFloat(row['Marketing Budget'] || row.marketingBudget || row['Budget'] || 0),
+                  })).filter(row => row.month);
+                  
+                  setGoalsData(processedGoals);
+                  setUploadStatus(prev => ({ ...prev, goals: true }));
+                }
+              },
+              error: (error) => {
+                console.error('CSV parsing error:', error);
+                alert(`Error parsing CSV: ${error.message}`);
+              }
+            });
+          };
 
   // Aggregate data based on time view
   const aggregatedData = useMemo(() => {
