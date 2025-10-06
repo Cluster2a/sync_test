@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from "react-router-dom";
-import { Upload, TrendingUp, DollarSign, Target, Calendar, ChevronDown, ArrowLeft, LineChart } from 'lucide-react';
+import { Upload, TrendingUp, DollarSign, Target, Calendar, ChevronDown, ArrowLeft, LineChart as LucideLineChart } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer  } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Papa from 'papaparse';
@@ -364,7 +364,7 @@ return (
   <div className="text-center">
     <div className="inline-flex items-center gap-2 mb-4">
       <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center">
-        <LineChart className="h-6 w-6 text-primary-foreground" />
+        <LucideLineChart className="h-6 w-6 text-primary-foreground" />
       </div>
     </div>
     <h1 className="text-4xl font-bold mb-2">
