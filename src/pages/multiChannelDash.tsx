@@ -232,7 +232,12 @@ const metricsWithGoals = useMemo(() => {
     const completed = [];
     let current = null;
 
-    Object.entries(monthlyData).forEach(([monthKey, data]) => {
+    Object.entries(monthlyData).forEach(([monthKey, data]) => {   
+    // Skip months with no data
+    if (data.days === 0) return;
+    // Skip future months
+    const isFutureMonth = new Date(monthKey + '-01') > now;
+    if (isFutureMonth) return;
       const goal = goalsData.find(g => g.month === monthKey);
       if (!goal) return;
 
