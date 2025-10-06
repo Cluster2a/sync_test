@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from "react-router-dom";
-import { Upload, TrendingUp, DollarSign, Target, Calendar, ChevronDown, ArrowLeft } from 'lucide-react';
+import { Upload, TrendingUp, DollarSign, Target, Calendar, ChevronDown, ArrowLeft, LineChart } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer  } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Papa from 'papaparse';
@@ -500,6 +500,146 @@ return (
               </p>
             </div>
           </div>
+
+{/* Runrate Analysis Section */}
+{runrateAnalysis.current && (
+  <div className="gradient-card border-primary/20 shadow-premium rounded-lg p-6 mb-8">
+    <h2 className="text-xl font-bold text-foreground mb-4">
+      Current Month Runrate - {runrateAnalysis.current.month}
+    </h2>
+    
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="bg-background/50 rounded-lg p-4">
+        <p className="text-xs text-muted-foreground mb-1">Actual Revenue (MTD)</p>
+        <p className="text-2xl font-bold text-foreground">
+          {formatCurrency(runrateAnalysis.current.actualRevenue)}
+        </p>
+        <p className="text-xs text-muted-foreground mt-1">
+          {runrateAnalysis.current.daysTracked} of {runrateAnalysis.current.daysInMonth} days
+        </p>
+      </div>
+      
+      <div className="bg-background/50 rounded-lg p-4">
+        <p className="text-xs text-muted-foreground mb-1">Forecasted Revenue (EOM)</p>
+        <p className="text-2xl font-bold text-foreground">
+          {formatCurrency(runrateAnalysis.current.forecastedRevenue)}
+        </p>
+        <p className={`text-sm font-semibold mt-1 ${
+          runrateAnalysis.current.forecastedRevenue >= runrateAnalysis.current.revenueGoal 
+            ? 'text-green-600' : 'text-red-600'
+        }`}>
+          {formatPercent(
+            ((runrateAnalysis.current.forecastedRevenue - runrateAnalysis.current.revenueGoal) / 
+            runrateAnalysis.current.revenueGoal) * 100
+          )} vs Goal
+        </p>
+      </div>
+      
+      <div className="bg-background/50 rounded-lg p-4">
+        <p className="text-xs text-muted-foreground mb-1">Actual Spend (MTD)</p>
+        <p className="text-2xl font-bold text-foreground">
+          {formatCurrency(runrateAnalysis.current.actualSpend)}
+        </p>
+      </div>
+      
+      <div className="bg-background/50 rounded-lg p-4">
+        <p className="text-xs text-muted-foreground mb-1">Forecasted Spend (EOM)</p>
+        <p className="text-2xl font-bold text-foreground">
+          {formatCurrency(runrateAnalysis.current.forecastedSpend)}
+        </p>
+        <p className={`text-sm font-semibold mt-1 ${
+          runrateAnalysis.current.forecastedSpend <= runrateAnalysis.current.marketingBudget 
+            ? 'text-green-600' : 'text-red-600'
+        }`}>
+          {formatPercent(
+            ((runrateAnalysis.current.forecastedSpend - runrateAnalysis.current.marketingBudget) / 
+            runrateAnalysis.current.marketingBudget) * 100
+          )} vs Budget
+        </p>
+      </div>
+    </div>
+    
+    <div className="bg-primary/5 rounded-lg p-4">
+      <p className="text-sm text-muted-foreground">
+        <strong>Runrate Projection:</strong> Based on {runrateAnalysis.current.daysTracked} days of data, 
+        you're on track to {runrateAnalysis.current.forecastedRevenue >= runrateAnalysis.current.revenueGoal ? 'exceed' : 'miss'} your 
+        revenue goal by {formatCurrency(Math.abs(runrateAnalysis.current.forecastedRevenue - runrateAnalysis.current.revenueGoal))}.
+      </p>
+    </div>
+  </div>
+)}
+
+{/* Completed Months Performance */}
+{runrateAnalysis.completed.length > 0 && (
+  <div className="gradient-card border-primary/20 shadow-premium rounded-lg overflow-hidden mb-8">
+    <div className="p-6 border-b border-primary/20">
+      <h2 className="text-xl font-bold text-foreground">Historical Month-End Performance</h2>
+      <p className="text-sm text-muted-foreground mt-1">
+        Completed months vs goals
+      </p>
+    </div>
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-primary/20">
+        <thead className="bg-background/50">
+          <tr>
+            <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">
+              Month
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+              Revenue Goal
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+              Actual Revenue
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+              Revenue Δ %
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+              Budget
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+              Actual Spend
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground uppercase">
+              Spend Δ %
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-primary/20">
+          {runrateAnalysis.completed.map((month, idx) => (
+            <tr key={idx} className="hover:bg-primary/5 transition-colors">
+              <td className="px-4 py-3 text-sm font-medium text-foreground">
+                {month.month}
+              </td>
+              <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                {formatCurrency(month.revenueGoal)}
+              </td>
+              <td className="px-4 py-3 text-sm text-right font-semibold text-foreground">
+                {formatCurrency(month.actualRevenue)}
+              </td>
+              <td className={`px-4 py-3 text-sm text-right font-bold ${
+                month.revenueDelta >= 0 ? 'text-green-600' : 'text-red-600'
+              }`}>
+                {formatPercent(month.revenuePercent)}
+              </td>
+              <td className="px-4 py-3 text-sm text-right text-muted-foreground">
+                {formatCurrency(month.marketingBudget)}
+              </td>
+              <td className="px-4 py-3 text-sm text-right font-semibold text-foreground">
+                {formatCurrency(month.actualSpend)}
+              </td>
+              <td className={`px-4 py-3 text-sm text-right font-bold ${
+                month.spendDelta <= 0 ? 'text-green-600' : 'text-red-600'
+              }`}>
+                {formatPercent(month.spendPercent)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
 
           {/* Charts Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
