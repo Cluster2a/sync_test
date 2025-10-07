@@ -398,7 +398,7 @@ return (
           <iframe
             width="100%"
             height="100%"
-            src="https://www.youtube.com/embed/7UrQYvM3m_w"
+            src="https://www.youtube.com/watch?v=S2reSZFNDGM"
             title="How to use Multi-Channel Marketing Dashboard"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -412,7 +412,7 @@ return (
 </div>
 
 
-      {/* File Upload Section */}
+  {/* File Upload Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="gradient-card border-primary/20 shadow-premium rounded-lg p-6">
           <div className="flex items-center mb-4">
@@ -462,33 +462,9 @@ return (
 
       {channelData.length > 0 && (
         <>
-          {/* Time View Selector */}
-          <div className="gradient-card border-primary/20 shadow-premium rounded-lg p-4 mb-8">
-            <div className="flex items-center gap-4 flex-wrap">
-              <Calendar className="w-5 h-5 text-primary" />
-              <span className="font-semibold text-foreground">View By:</span>
-              <div className="flex gap-2">
-                {['daily', 'weekly', 'monthly'].map(view => (
-                  <button
-                    key={view}
-                    onClick={() => setTimeView(view)}
-                    className={`px-4 py-2 rounded font-medium transition-premium ${
-                      timeView === view
-                        ? 'gradient-primary text-primary-foreground shadow-glow'
-                        : 'bg-background/50 text-muted-foreground hover:bg-primary/10'
-                    }`}
-                  >
-                    {view.charAt(0).toUpperCase() + view.slice(1)}
-                  </button>
-                ))}
-              </div>
-              <span className="text-sm text-muted-foreground ml-auto">
-                Showing {metricsWithGoals.length} {timeView === 'daily' ? 'days' : timeView === 'weekly' ? 'weeks' : 'months'}
-              </span>
-            </div>
-          </div>
+          
 
-          {/* Key Metrics Summary */}
+    {/* Key Metrics Summary */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div className="gradient-card border-primary/20 shadow-premium rounded-lg p-6">
               <div className="flex items-center justify-between mb-2">
@@ -611,8 +587,33 @@ return (
   </div>
 )}
 
+{/* Time View Selector */}
+          <div className="gradient-card border-primary/20 shadow-premium rounded-lg p-4 mb-8">
+            <div className="flex items-center gap-4 flex-wrap">
+              <Calendar className="w-5 h-5 text-primary" />
+              <span className="font-semibold text-foreground">View By:</span>
+              <div className="flex gap-2">
+                {['daily', 'weekly', 'monthly'].map(view => (
+                  <button
+                    key={view}
+                    onClick={() => setTimeView(view)}
+                    className={`px-4 py-2 rounded font-medium transition-premium ${
+                      timeView === view
+                        ? 'gradient-primary text-primary-foreground shadow-glow'
+                        : 'bg-background/50 text-muted-foreground hover:bg-primary/10'
+                    }`}
+                  >
+                    {view.charAt(0).toUpperCase() + view.slice(1)}
+                  </button>
+                ))}
+              </div>
+              <span className="text-sm text-muted-foreground ml-auto">
+                Showing {metricsWithGoals.length} {timeView === 'daily' ? 'days' : timeView === 'weekly' ? 'weeks' : 'months'}
+              </span>
+            </div>
+          </div>
 
-          {/* Charts Section */}
+{/* Charts Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Revenue vs Goal Chart */}
             <div className="gradient-card border-primary/20 shadow-premium rounded-lg p-6">
