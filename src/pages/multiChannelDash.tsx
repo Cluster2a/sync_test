@@ -23,7 +23,7 @@ const MarketingDashboard = () => {
                     complete: (results) => {
                       if (type === 'channel') {
                         // Process channel performance data
-                        const processedData = results.data.map(row => {
+                        const processedData = results.data.map((row: any) => {
                           const headers = Object.keys(row);
                           
                           return {
@@ -36,17 +36,17 @@ const MarketingDashboard = () => {
                             googleSpend: parseFloat(row['Google Ads'] || row.googleSpend || row['Google Spend'] || 0),
                             metaSpend: parseFloat(row['Meta Ads'] || row.metaSpend || row['Meta Spend'] || 0),
                           };
-                        }).filter(row => !isNaN(row.date.getTime()));
+                        }).filter((row: any) => !isNaN(row.date.getTime()));
                         
-                        setChannelData(processedData.sort((a, b) => a.date - b.date));
+                        setChannelData(processedData.sort((a: any, b: any) => a.date - b.date));
                         setUploadStatus(prev => ({ ...prev, channel: true }));
                       } else {
                         // Process goals data
-                        const processedGoals = results.data.map(row => ({
+                        const processedGoals = results.data.map((row: any) => ({
                           month: row.Month || row.month,
                           revenueGoal: parseFloat(row['Revenue Goal'] || row.revenueGoal || row['Revenue'] || 0),
                           marketingBudget: parseFloat(row['Marketing Budget'] || row.marketingBudget || row['Budget'] || 0),
-                        })).filter(row => row.month);
+                        })).filter((row: any) => row.month);
                         
                         setGoalsData(processedGoals);
                         setUploadStatus(prev => ({ ...prev, goals: true }));
@@ -62,16 +62,16 @@ const MarketingDashboard = () => {
   const aggregatedData = useMemo(() => {
     if (channelData.length === 0) return [];
 
-    const getWeekNumber = (date) => {
+    const getWeekNumber = (date: Date) => {
       const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
       const dayNum = d.getUTCDay() || 7;
       d.setUTCDate(d.getUTCDate() + 4 - dayNum);
       const yearStart = new Date(Date.UTC(d.getFullYear(), 0, 1));
-      const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+      const weekNo = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
       return `${d.getFullYear()}-W${weekNo.toString().padStart(2, '0')}`;
     };
 
-    const getMonthKey = (date) => {
+    const getMonthKey = (date: Date) => {
       return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
     };
 
@@ -120,12 +120,12 @@ const MarketingDashboard = () => {
       grouped[key].dates.push(day.date);
     });
 
-    return Object.values(grouped).map(group => ({
+    return Object.values(grouped).map((group: any) => ({
       ...group,
       totalRevenue: group.amazonRevenue + group.tiktokRevenue + group.dtcRevenue,
       totalSpend: group.amazonSpend + group.tiktokSpend + group.googleSpend + group.metaSpend,
       date: group.dates[0]
-    })).sort((a, b) => a.period.localeCompare(b.period));
+    })).sort((a: any, b: any) => a.period.localeCompare(b.period));
   }, [channelData, timeView]);
 
  // Calculate metrics with goals
@@ -265,7 +265,7 @@ const metricsWithGoals = useMemo(() => {
               const completed = [];
               let current = null;
 
-              Object.entries(monthlyData).forEach(([monthKey, data]) => {
+              Object.entries(monthlyData).forEach(([monthKey, data]: [string, any]) => {
                 // Skip months with no data
                 if (data.days === 0) return;
                 
@@ -634,7 +634,7 @@ return (
                     stroke="hsl(var(--muted-foreground))"
                     tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
                   />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip active={false} payload={[]} label="" />} />
                   <Legend wrapperStyle={{ fontSize: '14px' }} />
                   <Line 
                     type="monotone" 
@@ -679,7 +679,7 @@ return (
                     stroke="hsl(var(--muted-foreground))"
                     tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
                   />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip active={false} payload={[]} label="" />} />
                   <Legend wrapperStyle={{ fontSize: '14px' }} />
                   <Line 
                     type="monotone" 
@@ -724,7 +724,7 @@ return (
                     stroke="hsl(var(--muted-foreground))"
                     tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
                   />
-                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--primary) / 0.1)' }} />
+                  <Tooltip content={<CustomTooltip active={false} payload={[]} label="" />} cursor={{ fill: 'hsl(var(--primary) / 0.1)' }} />
                   <Legend wrapperStyle={{ fontSize: '14px' }} />
 
                <Bar dataKey="amazonRevenue" stackId="a" fill="#d78201ff" name="Amazon" />
@@ -753,7 +753,7 @@ return (
                     stroke="hsl(var(--muted-foreground))"
                     tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
                   />
-                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--primary) / 0.1)' }} />
+                  <Tooltip content={<CustomTooltip active={false} payload={[]} label="" />} cursor={{ fill: 'hsl(var(--primary) / 0.1)' }} />
                   <Legend wrapperStyle={{ fontSize: '14px' }} />
                 <Bar dataKey="amazonSpend" stackId="a" fill="#d78201ff" name="Amazon Ads" />
 <Bar dataKey="tiktokSpend" stackId="a" fill="#6d399eff" name="TikTok Ads" />
