@@ -512,6 +512,138 @@ const FreeTools = () => {
             </Card>
           </div>
         </section>
+
+{/* SEO FAQ Section for MCD */}
+      <section className="py-12 pb-20">
+        <div className="container mx-auto px-6">
+          <Card className="gradient-card border-primary/20 shadow-premium max-w-5xl mx-auto">
+            <CardHeader>
+              <CardTitle className="text-2xl md:text-3xl text-center">
+                Frequently Asked Questions
+              </CardTitle>
+              <CardDescription className="text-center mt-2 text-base">
+                Everything you need to know about the Multi-Channel Marketing Dashboard
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="text-left">
+                    What is the Multi-Channel Marketing Dashboard?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-muted-foreground leading-relaxed">
+                      The Multi-Channel Marketing Dashboard is a comprehensive analytics tool designed to help e-commerce businesses track and analyze their marketing performance across multiple channels in one unified view. It consolidates data from Amazon, TikTok, DTC stores, and various advertising platforms (Amazon Ads, TikTok Ads, Google Ads, Meta Ads) to give you a complete picture of your marketing ROI. Upload your daily performance data and monthly goals to visualize key metrics like revenue, spend, MER (Marketing Efficiency Ratio), and TACOS (Total Advertising Cost of Sale) with flexible daily, weekly, and monthly views.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-2">
+                  <AccordionTrigger className="text-left">
+                    What data do I need to upload?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-muted-foreground leading-relaxed mb-3">
+                      You need to upload two CSV files to use the dashboard effectively:
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed mb-2">
+                      <strong>1. Channel Performance Data:</strong> A daily CSV file with columns for Date, Amazon Revenue, TikTok Revenue, DTC Revenue, Amazon Ads (spend), TikTok Ads, Google Ads, and Meta Ads. This file should contain your actual daily performance metrics from each channel.
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      <strong>2. Monthly Goals (Optional):</strong> A CSV file with columns for Month, Revenue Goal, and Marketing Budget. This allows you to track your actual performance against your targets and see variance percentages in real-time.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-3">
+                  <AccordionTrigger className="text-left">
+                    What is MER and why does it matter?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-muted-foreground leading-relaxed mb-3">
+                      MER (Marketing Efficiency Ratio) is a crucial metric that shows how much revenue you generate for every dollar spent on marketing. It's calculated as Total Revenue ÷ Total Marketing Spend. For example, an MER of 3.5x means you're generating $3.50 in revenue for every $1 spent on ads.
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Unlike ROAS (Return on Ad Spend), which only considers ad platform metrics, MER gives you a holistic view of all your marketing efforts across channels. A good MER varies by industry and business model, but generally, e-commerce brands should aim for 3x-5x or higher. Our dashboard calculates MER automatically and shows you trends over time, helping you identify which periods and channel mixes deliver the best efficiency.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-4">
+                  <AccordionTrigger className="text-left">
+                    What is TACOS and how is it different from ACOS?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-muted-foreground leading-relaxed mb-3">
+                      TACOS (Total Advertising Cost of Sale) is calculated as Total Ad Spend ÷ Total Revenue × 100. It shows what percentage of your total revenue goes toward advertising costs. For example, a 20% TACOS means 20 cents of every dollar in revenue is spent on ads.
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      While ACOS (Advertising Cost of Sale) only considers sales directly attributed to ads on a single platform like Amazon, TACOS looks at all revenue (including organic sales) compared to all ad spend across channels. This gives you a more accurate picture of your overall advertising efficiency. Lower TACOS is generally better, as it means you're spending less on ads relative to total revenue. Our dashboard tracks TACOS across all your channels, helping you maintain profitable advertising ratios.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-5">
+                  <AccordionTrigger className="text-left">
+                    How do the time views (Daily/Weekly/Monthly) work?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-muted-foreground leading-relaxed mb-3">
+                      The dashboard offers three time aggregation views to help you analyze your data at different levels:
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed mb-2">
+                      <strong>Daily View:</strong> Shows your raw daily data exactly as uploaded, perfect for spotting day-to-day trends and anomalies.
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed mb-2">
+                      <strong>Weekly View:</strong> Aggregates data by week (starting Monday), smoothing out daily fluctuations to reveal weekly patterns and trends.
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      <strong>Monthly View:</strong> Consolidates data by calendar month, ideal for comparing against monthly goals and tracking longer-term performance trends. This view also shows runrate projections based on current performance.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-6">
+                  <AccordionTrigger className="text-left">
+                    What is the runrate projection?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-muted-foreground leading-relaxed">
+                      The runrate projection estimates your end-of-month performance based on your current daily average. For example, if you're 15 days into the month with $45,000 in revenue, your daily average is $3,000. If the month has 30 days, the runrate projects $90,000 total revenue ($3,000 × 30 days). This helps you forecast whether you'll hit your monthly goals based on current performance, allowing you to make mid-month adjustments to your marketing strategy if needed. The dashboard shows runrate projections for both revenue and spend in the monthly view.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-7">
+                  <AccordionTrigger className="text-left">
+                    Can I use this dashboard if I only sell on one channel?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Yes, absolutely! While the dashboard is designed to handle multi-channel data, it works perfectly well for single-channel businesses too. If you only sell on Amazon, for example, just enter your Amazon revenue and leave the other channel columns at zero (or omit them entirely). The same applies to ad spend - if you only run Amazon Ads, just include that data and leave the others blank. The dashboard will still calculate your MER, TACOS, and all other metrics accurately, and you'll benefit from the time-based views, goal tracking, and performance analysis features.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-8">
+                  <AccordionTrigger className="text-left">
+                    How do I interpret the Revenue vs Goal chart?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-muted-foreground leading-relaxed mb-3">
+                      The Revenue vs Goal chart (visible when you upload monthly goals) shows your actual revenue performance compared to your targets. The bars represent your actual revenue by period, while the line shows your goal. This visual makes it instantly clear whether you're ahead or behind pace.
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      In the detailed data table below the charts, you'll also see the exact percentage variance from goal. Green percentages indicate you're exceeding your goal, while red shows you're below target. Use this information to adjust your marketing spend and strategy mid-month or to better forecast future goals based on realistic performance patterns.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
 {/* SEO FAQ Section for ROI Calculator */}
         <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-6">
@@ -664,6 +796,11 @@ const FreeTools = () => {
             </Card>
           </div>
         </section>
+
+
+
+
+
       </main>
       <Footer />
     </div>

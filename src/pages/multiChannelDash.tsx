@@ -399,7 +399,7 @@ return (
           <iframe
             width="100%"
             height="100%"
-            src="https://www.youtube.com/watch?v=S2reSZFNDGM"
+            src="https://www.youtube.com/embed/S2reSZFNDGM"
             title="How to use Multi-Channel Marketing Dashboard"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -411,7 +411,6 @@ return (
     )}
   </Card>
 </div>
-
 
   {/* File Upload Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
