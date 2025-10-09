@@ -1,8 +1,16 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/static",
+  "installCommand": "npm install",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/",
       "destination": "/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/dist/client/index.html"
     }
-  ]
+  ],
+  "cleanUrls": true
 }

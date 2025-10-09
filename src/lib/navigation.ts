@@ -1,4 +1,6 @@
 export const navigateToSection = (sectionId: string) => {
+  if (typeof window === 'undefined') return;
+  
   // If we're not on the main page, navigate there first
   if (window.location.pathname !== '/') {
     window.location.href = `/#${sectionId}`;

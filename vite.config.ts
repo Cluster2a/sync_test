@@ -15,4 +15,22 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      input: {
+        app: path.resolve(__dirname, "index.html"),
+        ...(process.env.BUILD_SSR && {
+          server: path.resolve(__dirname, "src/entry-server.tsx"),
+        }),
+      },
+      external: (id) => {
+        // For client builds, externalize papaparse to avoid build issues
+        if (id === 'papaparse') return true;
+        return false;
+      },
+    },
+  },
+  ssr: {
+    noExternal: ['@radix-ui/*', 'lucide-react', 'papaparse'],
+  },
 }));
